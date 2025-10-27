@@ -4,10 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum RoleType {
-    CUSTOMER(1),
-    WAITER(2),
-    CHEF(3),
-    ADMIN(4);
+    CLIENT(1),
+    ADMIN(2);
 
     private final int level;
 
