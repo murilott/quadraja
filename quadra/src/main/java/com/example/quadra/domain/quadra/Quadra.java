@@ -1,0 +1,45 @@
+package com.example.quadra.domain.quadra;
+
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.UUID;
+
+import com.example.quadra.domain.quadra.vo.Category;
+import com.example.quadra.domain.quadra.vo.CategoryType;
+import com.example.quadra.domain.quadra.vo.Price;
+
+@Table(name = "quadra")
+@Entity
+@NoArgsConstructor
+@Getter
+@Setter
+public class Quadra {
+    @Id
+    @Column(nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String local;
+
+    @Valid
+    @Embedded
+    private Price price;
+
+    @Embedded
+    private Category category;
+
+    public Quadra(String name, @Valid Price price, CategoryType category, String local) {
+        this.name = name;
+        this.price = price;
+        this.category = Category.of(category);
+        this.local = local;
+    }
+}
