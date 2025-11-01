@@ -36,10 +36,10 @@ public class Quadra {
     @Embedded
     private Category category;
 
-    public Quadra(String name, @Valid Price price, CategoryType category, String local) {
+    public Quadra(String name, String local, @Valid Price price, CategoryType category) {
         this.name = name;
+        this.local = local;
         this.price = price;
         this.category = Category.of(category);
-        this.local = local;
     }
 }
