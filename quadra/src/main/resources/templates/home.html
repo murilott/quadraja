@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviço de Quadra</title>
+</head>
+
+<body>
+    <h1>Quadra</h1>
+
+    <p>Adicionar quadra:</p>
+
+    <pre style="background-color: beige;"><code>
+        curl -X POST http://localhost:8082/quadras \
+        -H "Content-Type: application/json" \
+        -d '{"name": "Quadra Central", "local": "Pátio 2", "price": 100.0, "category": "FUTEBOL"}'
+    </code></pre>
+
+    <p>no terminal do Codespace</p>
+
+    <p>Rotas:</p>
+    <ol>
+        <li>GET /quadras: lista paginada</li>
+        <li>POST /quadras: registrar quadra</li>
+    </ol>
+</body>
+</html>

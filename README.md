@@ -15,3 +15,11 @@ Para criar outro pacote:
 4. Atualizar o arquivo docker-compose.yml com informações do novo pacote (copiar/colar e mudar o nome, porta)
 5. Rodar
 6. Para abrir as rotas, acessar o link da porta na aba "Portas" do VSCode
+
+Adicionar quadra:
+```
+curl -X POST http://localhost:8082/quadras \
+-H "Content-Type: application/json" \
+-d '{"name": "Quadra Central", "local": "Pátio 2", "price": 100.0, "category": "FUTEBOL"}'
+```
+no terminal do Codespace

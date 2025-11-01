@@ -1,14 +1,15 @@
 package com.example.quadra.interfaces.rest;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class HelloController {
 
     @GetMapping("/")
     public String home() {
-        return "Serviço de quadra. Rotas: GET /quadras: lista; POST /quadras: registrar quadra";
+        return "home";
     }
 
     @GetMapping("/quadra")
