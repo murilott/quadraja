@@ -8,12 +8,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.quadra.application.quadra.quadra.AlugarQuadraHandler;
 import com.example.quadra.application.quadra.quadra.ListQuadrasHandler;
 import com.example.quadra.application.quadra.quadra.RegisterQuadraHandler;
+import com.example.quadra.interfaces.rest.dto.quadra.AlugarQuadraRequest;
 import com.example.quadra.interfaces.rest.dto.quadra.QuadraResponse;
 import com.example.quadra.interfaces.rest.dto.quadra.RegisterQuadraRequest;
 
 import java.net.URI;
+import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/quadras")
@@ -22,6 +26,7 @@ public class QuadraController {
 
     private final ListQuadrasHandler listQuadrasHandler;
     private final RegisterQuadraHandler registerQuadraHandler;
+    private final AlugarQuadraHandler alugarQuadraHandler;
 
     @GetMapping
     public ResponseEntity<Page<QuadraResponse>> list(Pageable pageable) {
@@ -36,4 +41,12 @@ public class QuadraController {
 
         return ResponseEntity.created(URI.create("/quadras/" + created.id())).body(created);
     }
+
+    @PostMapping("/alugar")
+    public ResponseEntity<QuadraResponse> alugar(@RequestBody AlugarQuadraRequest request) {
+        QuadraResponse created = alugarQuadraHandler.handle(request.name(), request.alugar());
+
+        return ResponseEntity.created(URI.create("/quadras/" + created.id())).body(created);
+    }
+    
 }

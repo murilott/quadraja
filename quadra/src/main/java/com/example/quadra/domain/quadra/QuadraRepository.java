@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface QuadraRepository {
-    // boolean existsByEmail(String email);
-    // Optional<Quadra> findByEmail(String email);
+    boolean existsByName(String name);
+    Optional<Quadra> findByName(String name);
     Quadra save(Quadra quadra);
     Optional<Quadra> findById(UUID id);
     Page<Quadra> findAll(Pageable pageable);

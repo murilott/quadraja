@@ -8,6 +8,7 @@ public record QuadraResponse(
         UUID id,
         String name,
         String local,
+        boolean alugado,
         double price,
         CategoryType category
 ) {}

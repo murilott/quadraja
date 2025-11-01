@@ -1,32 +1,29 @@
 package com.example.quadra.application.quadra.quadra;
 
-import lombok.RequiredArgsConstructor;
-
-
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.example.quadra.domain.quadra.Quadra;
 import com.example.quadra.domain.quadra.QuadraRepository;
-import com.example.quadra.domain.quadra.vo.Category;
 import com.example.quadra.domain.quadra.vo.CategoryType;
 import com.example.quadra.domain.quadra.vo.Price;
 import com.example.quadra.interfaces.rest.dto.quadra.QuadraResponse;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
-public class RegisterQuadraHandler {
+public class AlugarQuadraHandler {
     private final QuadraRepository quadraRepository;
 
-    public QuadraResponse handle(String name, String local, double priceRaw, CategoryType category) {
-        if (quadraRepository.existsByName(name)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Quadra já cadastrada");
+    public QuadraResponse handle(String name, boolean alugar) {
+        Quadra quadra = quadraRepository.findByName(name)
+            .orElseThrow(() -> new RuntimeException("Quadra não encontrada"));
+
+        if (quadra.isAlugado()) {
+            throw new RuntimeException("Quadra já está alugada");
         }
 
-        Price price = Price.of(priceRaw);
-
-        Quadra quadra = new Quadra(name, local, false, price, category);
+        quadra.setAlugado(alugar);
         Quadra savedQuadra = quadraRepository.save(quadra);
 
         return new QuadraResponse(

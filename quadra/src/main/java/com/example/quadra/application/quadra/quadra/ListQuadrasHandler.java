@@ -23,6 +23,7 @@ public class ListQuadrasHandler {
                 quadra.getId(),
                 quadra.getName(),
                 quadra.getLocal(),
+                quadra.isAlugado(),
                 quadra.getPrice().getValue(),
                 quadra.getCategory().getValue()
         ));

@@ -19,15 +19,15 @@ public class JpaQuadraRepository implements QuadraRepository {
         this.jpa = jpa;
     }
 
-    // @Override
-    // public boolean existsByEmail(String email) {
-    //     return jpa.existsByEmail_value(email);
-    // }
+    @Override
+    public boolean existsByName(String name) {
+        return jpa.existsByName(name);
+    }
 
-    // @Override
-    // public Optional<Quadra> findByEmail(String email) {
-    //     return jpa.findByEmail_value(email);
-    // }
+    @Override
+    public Optional<Quadra> findByName(String name) {
+        return jpa.findByName(name);
+    }
 
     @Override
     public Quadra save(Quadra user) {

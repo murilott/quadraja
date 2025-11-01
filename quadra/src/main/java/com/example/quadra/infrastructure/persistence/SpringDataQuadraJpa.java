@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SpringDataQuadraJpa extends JpaRepository<Quadra, UUID> {
-    // Optional<Quadra> findByEmail_value(String email);
-    // boolean existsByEmail_value(String email);
+    Optional<Quadra> findByName(String name);
+    boolean existsByName(String name);
 }

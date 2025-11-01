@@ -29,6 +29,8 @@ public class Quadra {
     @Column(nullable = false)
     private String local;
 
+    private boolean alugado;
+
     @Valid
     @Embedded
     private Price price;
@@ -36,9 +38,10 @@ public class Quadra {
     @Embedded
     private Category category;
 
-    public Quadra(String name, String local, @Valid Price price, CategoryType category) {
+    public Quadra(String name, String local, boolean alugado, @Valid Price price, CategoryType category) {
         this.name = name;
         this.local = local;
+        this.alugado = alugado;
         this.price = price;
         this.category = Category.of(category);
     }
