@@ -10,7 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Table(name = "quadra")
+import com.example.reserva.domain.reserva.vo.Periodo;
+
+@Table(name = "reserva")
 @Entity
 @NoArgsConstructor
 @Getter
@@ -23,16 +25,17 @@ public class Reserva {
 
     private String quadraName;
 
-    private LocalDateTime periodoReserva;
+    @Valid
+    @Embedded
+    private Periodo periodo;
     
     private String pagamento;
 
     private boolean pago;
 
-    public Quadra(String quadraName, LocalDateTime periodoReserva, String pagamento, boolean pago) {
+    public Reserva(String quadraName, Periodo periodo, String pagamento) {
         this.quadraName = quadraName;
-        this.periodoReserva = periodoReserva;
+        this.periodo = periodo;
         this.pagamento = pagamento;
-        this.pago = pago;
     }
 }

@@ -10,21 +10,24 @@
 <body>
     <h1>Reserva</h1>
 
-    <!-- <p>no terminal do Codespace</p>
+    <p>no terminal do Codespace</p>
     <p>Adicionar reserva:</p>
-    
+
     <pre style="background-color: beige;"><code>
         curl -X POST http://localhost:8085/reservas \
         -H "Content-Type: application/json" \
-        -d '{"name": "Quadra Central", "local": "Pátio 2", "price": 100.0, "category": "FUTEBOL"}'
-    </code></pre> -->
+        -d '{
+            "quadraName": "Quadra Central",
+            "periodo": "2025-11-05T15:30:00",
+            "pagamento": "cartao"
+        }'
+    </code></pre>
 
-    <!-- <p>Rotas:</p>
+    <p>Rotas:</p>
     <ol>
-        <li><a href="/quadras">GET /quadras: lista paginada</a></li>
-        <li>POST /quadras: registrar quadra</li>
-        <li>POST /quadras/alugar: alugar quadra</li>
-    </ol> -->
+        <li><a href="/reservas">GET /reservas: lista paginada</a></li>
+        <li>POST /reservas: registrar reserva</li>
+    </ol>
 </body>
 
 </html>
