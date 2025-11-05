@@ -10,7 +10,6 @@ import lombok.Getter;
 @Embeddable
 @Getter
 public class Periodo {
-     // TODO: adicionar tag de validação para números
     @Column(name = "periodo")
     private LocalDateTime value;
 
