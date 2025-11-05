@@ -1,0 +1,36 @@
+package com.example.pagamento.domain.pagamento;
+
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import com.example.reserva.domain.reserva.vo.Periodo;
+
+@Table(name = "pagamento")
+@Entity
+@NoArgsConstructor
+@Getter
+@Setter
+public class Pagamento {
+    @Id
+    @Column(nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    private String nome;
+
+    // @Valid
+    // @Embedded
+    private String tipo;
+
+    public Pagamento(String nome, String tipo) {
+        this.nome = nome;
+        this.tipo = tipo;
+    }
+}
