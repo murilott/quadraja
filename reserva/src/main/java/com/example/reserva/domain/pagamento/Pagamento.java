@@ -1,4 +1,4 @@
-package com.example.pagamento.domain.pagamento;
+package com.example.reserva.domain.pagamento;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;

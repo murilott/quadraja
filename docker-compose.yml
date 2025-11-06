@@ -51,6 +51,19 @@ services:
      - service-discovery
     networks:
      - app-network
+  pagamento:
+    build:
+      context: ./pagamento
+    container_name: pagamento
+    ports:
+     - "8086:8080"
+    volumes:
+     - ./pagamento:/app
+     - ~/.m2:/root/.m2
+    depends_on:
+     - service-discovery
+    networks:
+     - app-network
   gateway-service:
     build:
       context: ./gateway-service

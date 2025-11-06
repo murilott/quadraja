@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviço de Pagamento</title>
+</head>
+
+<body>
+    <h1>Pagamento</h1>
+
+    <p>no terminal do Codespace</p>
+    <p>Adicionar pagamento:</p>
+    
+    <pre style="background-color: beige;"><code>
+        curl -X POST http://localhost:8086/pagamentos \
+        -H "Content-Type: application/json" \
+        -d '{"nome": "CrediTop", "tipo": "Crédito"}'
+    </code></pre>
+
+    <p>Rotas:</p>
+    <ol>
+        <li><a href="/pagamentos">GET /pagamentos: lista paginada</a></li>
+        <li>POST /pagamentos: registrar pagamento</li>
+    </ol>
+</body>
+
+</html>
