@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.example.reserva.domain.quadra.Quadra;
 import com.example.reserva.domain.reserva.vo.Periodo;
 
 @Table(name = "reserva")
@@ -23,7 +24,8 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String quadraName;
+    @Transient
+    private Quadra quadra;
 
     @Valid
     @Embedded
@@ -33,8 +35,8 @@ public class Reserva {
 
     private boolean pago;
 
-    public Reserva(String quadraName, Periodo periodo, String pagamento) {
-        this.quadraName = quadraName;
+    public Reserva(Quadra quadra, Periodo periodo, String pagamento) {
+        this.quadra = quadra;
         this.periodo = periodo;
         this.pagamento = pagamento;
     }

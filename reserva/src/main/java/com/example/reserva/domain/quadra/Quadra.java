@@ -12,8 +12,7 @@ import com.example.reserva.domain.quadra.vo.Category;
 import com.example.reserva.domain.quadra.vo.CategoryType;
 import com.example.reserva.domain.quadra.vo.Price;
 
-@Table(name = "quadra")
-@Entity
+// @Table(name = "quadra")
 @NoArgsConstructor
 @Getter
 @Setter

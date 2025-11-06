@@ -9,15 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.reserva.domain.quadra.Quadra;
 import com.example.reserva.domain.reserva.Reserva;
 import com.example.reserva.domain.reserva.ReservaRepository;
 import com.example.reserva.domain.reserva.vo.Periodo;
+import com.example.reserva.infrastructure.out.messaging.QuadraRequestProducer;
 import com.example.reserva.interfaces.rest.dto.reserva.ReservaResponse;
 
 @Service
 @RequiredArgsConstructor
 public class RegisterReservaHandler {
     private final ReservaRepository reservaRepository;
+    private final QuadraRequestProducer quadraRequestProducer;
 
     public ReservaResponse handle(String quadraName, LocalDateTime periodoRaw, String pagamento) {
         // TODO: Verificar se já existe reserva com mesmo período
@@ -25,14 +28,16 @@ public class RegisterReservaHandler {
         //     throw new ResponseStatusException(HttpStatus.CONFLICT, "Reserva já cadastrada");
         // }
 
+        Quadra quadra = quadraRequestProducer.solicitarQuadra(quadraName);
+
         Periodo periodo = Periodo.of(periodoRaw);
 
-        Reserva reserva = new Reserva(quadraName, periodo, pagamento);
+        Reserva reserva = new Reserva(quadra, periodo, pagamento);
         Reserva savedReserva = reservaRepository.save(reserva);
 
         return new ReservaResponse(
                 savedReserva.getId(),
-                savedReserva.getQuadraName(),
+                savedReserva.getQuadra(),
                 savedReserva.getPeriodo(),
                 savedReserva.getPagamento(),
                 savedReserva.isPago()

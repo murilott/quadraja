@@ -1,0 +1,32 @@
+package com.example.reserva.infrastructure.out.messaging;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Component;
+
+import com.example.reserva.domain.quadra.Quadra;
+
+import lombok.AllArgsConstructor;
+
+@Component
+@AllArgsConstructor
+public class QuadraRequestProducer {
+
+    private final RabbitTemplate rabbitTemplate;
+
+    public Quadra solicitarQuadra(String quadraName) {
+        System.out.println("Solicitando quadra via RabbitMQ: " + quadraName);
+
+        Quadra quadra = (Quadra) rabbitTemplate.convertSendAndReceive(
+            "quadra.rpc.exchange",  // exchange
+            "quadra.rpc.key",       // routing key
+            quadraName              // mensagem (nome)
+        );
+
+        if (quadra == null) {
+            throw new RuntimeException("Quadra não encontrada: " + quadraName);
+        }
+
+        System.out.println("Recebida resposta da quadra: " + quadra.getName());
+        return quadra;
+    }
+}

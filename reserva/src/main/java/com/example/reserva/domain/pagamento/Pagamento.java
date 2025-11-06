@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Table(name = "pagamento")
-@Entity
+// @Table(name = "pagamento")
 @NoArgsConstructor
 @Getter
 @Setter

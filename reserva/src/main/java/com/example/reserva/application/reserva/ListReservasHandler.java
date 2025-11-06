@@ -21,7 +21,7 @@ public class ListReservasHandler {
 
         return page.map(Reserva -> new ReservaResponse(
                 Reserva.getId(),
-                Reserva.getQuadraName(),
+                Reserva.getQuadra(),
                 Reserva.getPeriodo(),
                 Reserva.getPagamento(),
                 Reserva.isPago()
