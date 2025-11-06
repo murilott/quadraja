@@ -1,6 +1,14 @@
 version: '3.0'
 
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
   service-discovery:
     build:
       context: ./service-discovery
@@ -23,6 +31,7 @@ services:
      - ~/.m2:/root/.m2
     depends_on:
      - service-discovery
+     - rabbitmq
     networks:
      - app-network
   auth-service:
@@ -36,6 +45,7 @@ services:
      - ~/.m2:/root/.m2
     depends_on:
      - service-discovery
+     - rabbitmq
     networks:
      - app-network
   reserva:
@@ -49,6 +59,7 @@ services:
      - ~/.m2:/root/.m2
     depends_on:
      - service-discovery
+     - rabbitmq
     networks:
      - app-network
   pagamento:
@@ -62,6 +73,7 @@ services:
      - ~/.m2:/root/.m2
     depends_on:
      - service-discovery
+     - rabbitmq
     networks:
      - app-network
   gateway-service:
@@ -75,6 +87,7 @@ services:
      - ~/.m2:/root/.m2
     depends_on:
      - service-discovery
+     - rabbitmq
     networks:
      - app-network
   nginx:
