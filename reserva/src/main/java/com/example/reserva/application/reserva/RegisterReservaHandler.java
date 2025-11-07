@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.reserva.domain.quadra.Quadra;
+import com.example.reserva.domain.quadra.vo.Price;
 import com.example.reserva.domain.reserva.Reserva;
 import com.example.reserva.domain.reserva.ReservaRepository;
 import com.example.reserva.domain.reserva.vo.Periodo;
 import com.example.reserva.infrastructure.out.messaging.QuadraRequestProducer;
+import com.example.reserva.interfaces.rest.dto.quadra.QuadraResponse;
 import com.example.reserva.interfaces.rest.dto.reserva.ReservaResponse;
 
 @Service
@@ -28,7 +30,9 @@ public class RegisterReservaHandler {
         //     throw new ResponseStatusException(HttpStatus.CONFLICT, "Reserva já cadastrada");
         // }
 
-        Quadra quadra = quadraRequestProducer.solicitarQuadra(quadraName);
+        QuadraResponse quadraResponse = quadraRequestProducer.solicitarQuadra(quadraName);
+        Price price = Price.of(quadraResponse.price());
+        Quadra quadra = new Quadra(quadraResponse.name(), quadraResponse.local(), false, price, quadraResponse.category());
 
         Periodo periodo = Periodo.of(periodoRaw);
 
