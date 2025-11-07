@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
     public static final String EXCHANGE_NAME = "quadra.rpc.exchange";
-    public static final String QUEUE_NAME = "quadra.response.queue";
+    public static final String QUEUE_NAME = "quadra.rpc.queue";
     public static final String ROUTING_KEY = "quadra.rpc.key";
 
     @Bean

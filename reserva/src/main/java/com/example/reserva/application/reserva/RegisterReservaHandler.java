@@ -32,6 +32,7 @@ public class RegisterReservaHandler {
 
         QuadraResponse quadraResponse = quadraRequestProducer.solicitarQuadra(quadraName);
         Price price = Price.of(quadraResponse.price());
+
         Quadra quadra = new Quadra(quadraResponse.name(), quadraResponse.local(), false, price, quadraResponse.category());
 
         Periodo periodo = Periodo.of(periodoRaw);
