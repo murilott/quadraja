@@ -24,11 +24,9 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Transient
+    @ManyToOne
     private Quadra quadra;
 
-    @Valid
-    @Embedded
     private Periodo periodo;
     
     private String pagamento;

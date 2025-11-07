@@ -4,6 +4,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 import com.example.reserva.domain.quadra.Quadra;
+import com.example.reserva.infrastructure.config.RabbitConfig;
 
 import lombok.AllArgsConstructor;
 
@@ -17,8 +18,8 @@ public class QuadraRequestProducer {
         System.out.println("Solicitando quadra via RabbitMQ: " + quadraName);
 
         Quadra quadra = (Quadra) rabbitTemplate.convertSendAndReceive(
-            "quadra.rpc.exchange",  // exchange
-            "quadra.rpc.key",       // routing key
+            RabbitConfig.EXCHANGE_NAME,  // exchange
+            RabbitConfig.ROUTING_KEY,       // routing key
             quadraName              // mensagem (nome)
         );
 

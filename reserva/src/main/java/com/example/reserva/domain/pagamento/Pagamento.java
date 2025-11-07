@@ -14,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Pagamento {
     @Id
     @Column(nullable = false, updatable = false)
@@ -31,3 +32,5 @@ public class Pagamento {
         this.tipo = tipo;
     }
 }
+
+

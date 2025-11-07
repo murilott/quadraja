@@ -12,13 +12,14 @@ import com.example.reserva.domain.quadra.vo.Category;
 import com.example.reserva.domain.quadra.vo.CategoryType;
 import com.example.reserva.domain.quadra.vo.Price;
 
-// @Table(name = "quadra")
+@Table(name = "quadra")
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
 public class Quadra {
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(name = "quadraId", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
