@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import com.example.reserva.domain.quadra.Quadra;
 import com.example.reserva.domain.reserva.vo.Periodo;
+import com.example.reserva.interfaces.rest.dto.quadra.QuadraResponse;
 
 @Table(name = "reserva")
 @Entity
@@ -24,17 +25,19 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    private Quadra quadra;
+    // @ManyToOne
+    private String quadraName;
 
+    @Valid
+    @Embedded
     private Periodo periodo;
     
     private String pagamento;
 
     private boolean pago;
 
-    public Reserva(Quadra quadra, Periodo periodo, String pagamento) {
-        this.quadra = quadra;
+    public Reserva(String quadraName, Periodo periodo, String pagamento) {
+        this.quadraName = quadraName;
         this.periodo = periodo;
         this.pagamento = pagamento;
     }

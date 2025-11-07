@@ -31,18 +31,18 @@ public class RegisterReservaHandler {
         // }
 
         QuadraResponse quadraResponse = quadraRequestProducer.solicitarQuadra(quadraName);
-        Price price = Price.of(quadraResponse.price());
+        // Price price = Price.of(quadraResponse.price());
 
-        Quadra quadra = new Quadra(quadraResponse.name(), quadraResponse.local(), false, price, quadraResponse.category());
+        // Quadra quadra = new Quadra(quadraResponse.name(), quadraResponse.local(), false, price, quadraResponse.category());
 
         Periodo periodo = Periodo.of(periodoRaw);
 
-        Reserva reserva = new Reserva(quadra, periodo, pagamento);
+        Reserva reserva = new Reserva(quadraResponse.name(), periodo, pagamento);
         Reserva savedReserva = reservaRepository.save(reserva);
 
         return new ReservaResponse(
                 savedReserva.getId(),
-                savedReserva.getQuadra(),
+                savedReserva.getQuadraName(),
                 savedReserva.getPeriodo(),
                 savedReserva.getPagamento(),
                 savedReserva.isPago()

@@ -4,10 +4,11 @@ import java.util.UUID;
 
 import com.example.reserva.domain.quadra.Quadra;
 import com.example.reserva.domain.reserva.vo.Periodo;
+import com.example.reserva.interfaces.rest.dto.quadra.QuadraResponse;
 
 public record ReservaResponse(
         UUID id,
-        Quadra quadra,
+        String quadraName,
         Periodo periodo,
         String pagamento,
         boolean pago
