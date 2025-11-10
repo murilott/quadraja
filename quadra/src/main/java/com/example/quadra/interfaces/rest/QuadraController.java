@@ -18,7 +18,7 @@ import com.example.quadra.interfaces.rest.dto.quadra.RegisterQuadraRequest;
 import java.net.URI;
 import java.util.UUID;
 
-
+// @CrossOrigin("*")
 @RestController
 @RequestMapping("/quadras")
 @RequiredArgsConstructor

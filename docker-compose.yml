@@ -23,7 +23,7 @@ services:
       context: ./service-discovery
     container_name: service-discovery
     ports:
-     - "8080:8080"
+     - "8761:8761"
     volumes:
      - ./service-discovery:/app
      - ~/.m2:/root/.m2
