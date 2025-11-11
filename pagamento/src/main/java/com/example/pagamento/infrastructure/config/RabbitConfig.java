@@ -1,4 +1,4 @@
-package com.example.reserva.infrastructure.config;
+package com.example.pagamento.infrastructure.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -11,43 +11,39 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    public static final String EXCHANGE_NAME_QUADRA = "quadra.rpc.exchange";
-    public static final String ROUTING_KEY_QUADRA = "quadra.rpc.key";
-    public static final String EXCHANGE_NAME_PAGAMENTO = "pagamento.rpc.exchange";
-    public static final String ROUTING_KEY_PAGAMENTO = "pagamento.rpc.key";
-
-    @Bean
-    public DirectExchange quadraExchange() {
-        return new DirectExchange(EXCHANGE_NAME_QUADRA);
-    }
+    public static final String EXCHANGE_NAME = "pagamento.rpc.exchange";
+    public static final String QUEUE_NAME = "pagamento.rpc.queue";
+    public static final String ROUTING_KEY = "pagamento.rpc.key";
 
     @Bean
     public DirectExchange pagamentoExchange() {
-        return new DirectExchange(EXCHANGE_NAME_PAGAMENTO);
+        return new DirectExchange(EXCHANGE_NAME);
+    }
+
+    @Bean
+    public Queue pagamentoQueue() {
+        return new Queue(QUEUE_NAME);
+    }
+
+    @Bean
+    public Binding pagamentoBinding(Queue pagamentoQueue, DirectExchange pagamentoExchange) {
+        return BindingBuilder.bind(pagamentoQueue).to(pagamentoExchange).with(ROUTING_KEY);
     }
 
     // @Bean
     // public MessageConverter jsonMessageConverter() {
-    // Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-    // DefaultClassMapper classMapper = new DefaultClassMapper();
-    // classMapper.setTrustedPackages("*");
-    // converter.setClassMapper(classMapper);
-    // return converter;
+    //     return new Jackson2JsonMessageConverter();
     // }
 
     @Bean
     public MessageConverter jsonMessageConverter() {
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
         DefaultClassMapper classMapper = new DefaultClassMapper();
-
-        // Ignora o tipo Java original enviado pelo produtor
-        classMapper.setTrustedPackages("*");
-        classMapper.setDefaultType(java.util.LinkedHashMap.class);
-
+        classMapper.setTrustedPackages("*"); // Permite desserializar qualquer pacote
         converter.setClassMapper(classMapper);
         return converter;
     }
-
+    
     @Bean
     public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);

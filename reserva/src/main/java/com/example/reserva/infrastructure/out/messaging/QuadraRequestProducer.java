@@ -23,8 +23,8 @@ public class QuadraRequestProducer {
         System.out.println("Solicitando quadra via RabbitMQ: " + quadraName);
 
         Object response = rabbitTemplate.convertSendAndReceive(
-                RabbitConfig.EXCHANGE_NAME, // exchange
-                RabbitConfig.ROUTING_KEY, // routing key
+                RabbitConfig.EXCHANGE_NAME_QUADRA, // exchange
+                RabbitConfig.ROUTING_KEY_QUADRA, // routing key
                 quadraName // mensagem (nome)
         );
 

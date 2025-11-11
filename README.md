@@ -24,6 +24,22 @@ curl -X POST http://localhost:8082/quadras \
 -H "Content-Type: application/json" \
 -d '{"name": "Quadra Central", "local": "Pátio 2", "price": 100.0, "category": "FUTEBOL"}'
 ```
+Adicionar pagamento:
+```
+curl -X POST http://localhost:8086/pagamentos \
+-H "Content-Type: application/json" \
+-d '{"nome": "CrediTop", "tipo": "Crédito"}'
+```
+Adicionar reserva:
+```
+curl -X POST http://localhost:8085/reservas \
+    -H "Content-Type: application/json" \
+    -d '{
+        "quadraName": "Quadra Central",
+        "periodo": "2025-11-05T15:30:00",
+        "pagamento": "CrediTop"
+    }'
+```
 Alugar quadra:
 ```
 curl -X POST http://localhost:8082/quadras/alugar \
