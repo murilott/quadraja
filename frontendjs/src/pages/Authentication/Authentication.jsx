@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function Authentication() {
-    return (<button>Logar</button>);
+    return <Link to="/home">Logar</Link>;
 }

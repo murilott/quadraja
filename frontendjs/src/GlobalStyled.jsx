@@ -3,19 +3,20 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyled = createGlobalStyle`
 /*Reset*/
 /* 17a1f1 */
-
+:root {
+  --dark: #151515;
+  --light: #fff;
+}
 ::selection {
-  background-color: var(--main);
-  color: var(--light);
+  background-color: red;
+  color: green;
 }
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
-  background-color: #1E1E1E;
   cursor: default;
   /* background: url("/bg.webp") no-repeat center center; */
   /* background-size: cover; */
-  color: #fff;
   font-family: 'Epilogue', sans-serif;
 }
 
