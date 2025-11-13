@@ -38,4 +38,21 @@ public class PagamentoRequestListener {
             return null;
         }
     }
+
+    @RabbitListener(queues = RabbitConfig.QUEUE_NAME_USER)
+    public String receberSolicitacaoUser(String pagamentoName) {
+        try {
+            System.out.println("📥 (User) Pedido recebido para Pagamento Name: " + pagamentoName);
+
+            Pagamento pagamento = pagamentoRepository.findByNome(pagamentoName)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            "(User) (pagamento - receber) Pagamento não encontrado: " + pagamentoName));
+
+            return pagamento.getNome();
+        } catch (Exception e) {
+            System.err.println("⚠️ (User) Erro ao processar mensagem RabbitMQ: " + e.getMessage());
+
+            return null;
+        }
+    }
 }

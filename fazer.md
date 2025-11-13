@@ -1,0 +1,1 @@
+- Método Reservar recebe email -> verifica se o usuário existe -> verifica se o pagamento na requisição está na lista de pagamentos do usuário -> adicionar a reserva na lista de reservas do usuário

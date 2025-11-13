@@ -13,7 +13,12 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfig {
     public static final String EXCHANGE_NAME = "pagamento.rpc.exchange";
     public static final String QUEUE_NAME = "pagamento.rpc.queue";
+    public static final String QUEUE_NAME_USER = "pagamento.user.rpc.queue";
     public static final String ROUTING_KEY = "pagamento.rpc.key";
+    public static final String ROUTING_KEY_USER = "pagamento.user.rpc.key";
+
+    // public static final String EXCHANGE_NAME_USER = "user.rpc.exchange";
+    // public static final String ROUTING_KEY_USER = "user.rpc.key";
 
     @Bean
     public DirectExchange pagamentoExchange() {
@@ -26,9 +31,34 @@ public class RabbitConfig {
     }
 
     @Bean
+    public Queue pagamentoUserQueue() {
+        return new Queue(QUEUE_NAME_USER);
+    }
+
+    // @Bean
+    // public DirectExchange userExchange() {
+    //     return new DirectExchange(EXCHANGE_NAME_USER);
+    // }
+
+    // @Bean
+    // public Queue userQueue() {
+    //     return new Queue(QUEUE_NAME_USER);
+    // }
+
+    @Bean
     public Binding pagamentoBinding(Queue pagamentoQueue, DirectExchange pagamentoExchange) {
         return BindingBuilder.bind(pagamentoQueue).to(pagamentoExchange).with(ROUTING_KEY);
     }
+
+    @Bean
+    public Binding pagamentoUserBinding(Queue pagamentoUserQueue, DirectExchange pagamentoExchange) {
+        return BindingBuilder.bind(pagamentoUserQueue).to(pagamentoExchange).with(ROUTING_KEY_USER);
+    }
+
+    // @Bean
+    // public Binding userBinding(Queue userQueue, DirectExchange userExchange) {
+    //     return BindingBuilder.bind(userQueue).to(userExchange).with(ROUTING_KEY);
+    // }
 
     // @Bean
     // public MessageConverter jsonMessageConverter() {

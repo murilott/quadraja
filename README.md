@@ -30,13 +30,32 @@ curl -X POST http://localhost:8086/pagamentos \
 -H "Content-Type: application/json" \
 -d '{"nome": "CrediTop", "tipo": "Crédito"}'
 ```
+Adicionar usuário:
+```
+curl -X POST http://localhost:8084/users/register \
+     -H "Content-Type: application/json" \
+     -d '{
+           "name": "Murilo Teste",
+           "email": "murilo.teste@example.com",
+           "password": "12345678"
+         }'
+```
+Adicionar pagamento ao usuário:
+```
+curl -X POST http://localhost:8084/users/pagamento \
+     -H "Content-Type: application/json" \
+     -d '{
+           "pagamentoNome": "CrediTop",
+           "usuarioEmail": "murilo.teste@example.com"
+         }'
+```
 Adicionar reserva:
 ```
 curl -X POST http://localhost:8085/reservas \
     -H "Content-Type: application/json" \
     -d '{
         "quadraName": "Quadra Central",
-        "periodo": "2025-11-05T15:30:00",
+        "periodo": "2025-11-15T15:30:00",
         "pagamento": "CrediTop"
     }'
 ```

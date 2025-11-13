@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Table(name = "usuario")
@@ -27,6 +29,8 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    private List<String> pagamentosLista = new ArrayList<String>();
 
     @Valid
     @Embedded
