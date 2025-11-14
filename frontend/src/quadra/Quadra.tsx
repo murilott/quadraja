@@ -11,7 +11,8 @@ type Page<T> = {
   number: number;
 };
 
-const BASE_URL = 'http://localhost:8082/quadras';
+// const BASE_URL = 'http://localhost:8082/quadras';
+const BASE_URL = 'https://accursed-phantasm-5j9xqj59jqr2r6j-8083.app.github.dev/quadra/quadras';
 
 function Quadra() {
   const [pageData, setPageData] = useState<Page<QuadraType> | null>(null);
