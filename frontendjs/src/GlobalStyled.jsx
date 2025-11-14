@@ -8,8 +8,8 @@ export const GlobalStyled = createGlobalStyle`
   --light: #fff;
 }
 ::selection {
-  background-color: red;
-  color: green;
+  /* background-color: red;
+  color: green; */
 }
 html {
   box-sizing: border-box;
