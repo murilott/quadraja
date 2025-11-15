@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { listQuadras } from './QuadraService';
+import { useEffect, useState } from 'react'
 import type { QuadraType } from './QuadraType';
 import axios from 'axios';
 
@@ -12,9 +11,9 @@ type Page<T> = {
 };
 
 // const BASE_URL = 'http://localhost:8082/quadras';
-// const BASE_URL = 'https://accursed-phantasm-5j9xqj59jqr2r6j-8083.app.github.dev/quadra/quadras';
+const BASE_URL = 'https://accursed-phantasm-5j9xqj59jqr2r6j-8083.app.github.dev/quadra/quadras';
 // const BASE_URL = 'https://accursed-phantasm-5j9xqj59jqr2r6j-8082.app.github.dev/quadras';
-const BASE_URL = 'https://accursed-phantasm-5j9xqj59jqr2r6j-80.app.github.dev/api/quadra/quadras';
+// const BASE_URL = 'https://accursed-phantasm-5j9xqj59jqr2r6j-80.app.github.dev/api/quadra/quadras';
 
 function Quadra() {
   const [pageData, setPageData] = useState<Page<QuadraType> | null>(null);
