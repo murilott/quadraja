@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Size;
 
 public record RegisterReservaRequest(
         @NotBlank String quadraName,
+        @NotBlank String usuarioEmail,
         @NotNull LocalDateTime periodo,
         @NotBlank String pagamento
 ) {

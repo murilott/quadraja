@@ -55,7 +55,8 @@ curl -X POST http://localhost:8085/reservas \
     -H "Content-Type: application/json" \
     -d '{
         "quadraName": "Quadra Central",
-        "periodo": "2025-11-15T15:30:00",
+        "usuarioEmail": "murilo.teste@example.com",
+        "periodo": "2025-11-20T15:30:00",
         "pagamento": "CrediTop"
     }'
 ```

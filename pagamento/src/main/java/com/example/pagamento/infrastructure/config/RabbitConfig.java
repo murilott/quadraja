@@ -12,9 +12,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
     public static final String EXCHANGE_NAME = "pagamento.rpc.exchange";
+    
     public static final String QUEUE_NAME = "pagamento.rpc.queue";
-    public static final String QUEUE_NAME_USER = "pagamento.user.rpc.queue";
     public static final String ROUTING_KEY = "pagamento.rpc.key";
+
+    public static final String QUEUE_NAME_USER = "pagamento.user.rpc.queue";
     public static final String ROUTING_KEY_USER = "pagamento.user.rpc.key";
 
     // public static final String EXCHANGE_NAME_USER = "user.rpc.exchange";

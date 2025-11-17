@@ -13,8 +13,12 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfig {
     public static final String EXCHANGE_NAME_QUADRA = "quadra.rpc.exchange";
     public static final String ROUTING_KEY_QUADRA = "quadra.rpc.key";
+    
     public static final String EXCHANGE_NAME_PAGAMENTO = "pagamento.rpc.exchange";
     public static final String ROUTING_KEY_PAGAMENTO = "pagamento.rpc.key";
+
+    public static final String EXCHANGE_NAME_USUARIO = "user.rpc.exchange";
+    public static final String ROUTING_KEY_USUARIO = "user.rpc.key";
 
     @Bean
     public DirectExchange quadraExchange() {
@@ -24,6 +28,11 @@ public class RabbitConfig {
     @Bean
     public DirectExchange pagamentoExchange() {
         return new DirectExchange(EXCHANGE_NAME_PAGAMENTO);
+    }
+
+    @Bean
+    public DirectExchange usuarioExchange() {
+        return new DirectExchange(EXCHANGE_NAME_USUARIO);
     }
 
     // @Bean

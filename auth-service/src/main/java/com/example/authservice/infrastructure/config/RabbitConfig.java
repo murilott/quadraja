@@ -11,18 +11,33 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    public static final String EXCHANGE_NAME = "pagamento.rpc.exchange";
-    public static final String ROUTING_KEY = "pagamento.user.rpc.key";
+    public static final String EXCHANGE_NAME = "user.rpc.exchange";
+    public static final String ROUTING_KEY = "user.rpc.key";
+    public static final String QUEUE_NAME = "user.rpc.queue";
+
+    public static final String QUEUE_NAME_PAGAMENTO = "pagamento.user.rpc.queue";
+    public static final String ROUTING_KEY_PAGAMENTO = "pagamento.user.rpc.key";
+    public static final String EXCHANGE_NAME_PAGAMENTO = "pagamento.rpc.exchange";
+
+    @Bean
+    public DirectExchange userExchange() {
+        return new DirectExchange(EXCHANGE_NAME);
+    }
 
     // @Bean
-    // public DirectExchange pagamentoExchange() {
+    // public DirectExchange userPagamentoExchange() {
     //     return new DirectExchange(EXCHANGE_NAME);
     // }
 
-    // @Bean
-    // public Binding pagamentoBinding(Queue pagamentoQueue, DirectExchange pagamentoExchange) {
-    //     return BindingBuilder.bind(pagamentoQueue).to(pagamentoExchange).with(ROUTING_KEY);
-    // }
+    @Bean
+    public Queue userQueue() {
+        return new Queue(QUEUE_NAME);
+    }
+
+    @Bean
+    public Binding userBinding(Queue userQueue, DirectExchange userExchange) {
+        return BindingBuilder.bind(userQueue).to(userExchange).with(ROUTING_KEY);
+    }
 
     @Bean
     public MessageConverter jsonMessageConverter() {

@@ -34,7 +34,7 @@ public class ReservaController {
 
     @PostMapping
     public ResponseEntity<ReservaResponse> register(@Valid @RequestBody RegisterReservaRequest request) {
-        ReservaResponse created = registerReservaHandler.handle(request.quadraName(), request.periodo(), request.pagamento());
+        ReservaResponse created = registerReservaHandler.handle(request.quadraName(), request.usuarioEmail(), request.periodo(), request.pagamento());
 
         return ResponseEntity.created(URI.create("/reservas/" + created.id())).body(created);
     }

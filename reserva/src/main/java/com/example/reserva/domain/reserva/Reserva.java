@@ -28,6 +28,8 @@ public class Reserva {
     // @ManyToOne
     private String quadraName;
 
+    private String usuarioEmail;
+
     @Valid
     @Embedded
     private Periodo periodo;
@@ -36,8 +38,9 @@ public class Reserva {
 
     private boolean pago;
 
-    public Reserva(String quadraName, Periodo periodo, String pagamento) {
+    public Reserva(String quadraName, String usuarioEmail, Periodo periodo, String pagamento) {
         this.quadraName = quadraName;
+        this.usuarioEmail = usuarioEmail;
         this.periodo = periodo;
         this.pagamento = pagamento;
     }
