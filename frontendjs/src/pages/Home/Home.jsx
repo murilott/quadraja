@@ -15,9 +15,6 @@ export function Home() {
                             <h3>{quadra.category}</h3>
                             </div>
                             <h6>{quadra.price}</h6>
-                            {quadra.alugado && (
-                                <span>ALUGADO!</span>
-                            )}
                         </Quadra>
                     ))
                 )}

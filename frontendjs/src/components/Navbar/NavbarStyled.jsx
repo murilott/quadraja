@@ -19,4 +19,14 @@ export const NavbarContent = styled.div`
     &>button {
         margin-left: auto;
     }
+    div {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+
+        button:hover {
+            color: var(--main);
+        }
+    }
 `;

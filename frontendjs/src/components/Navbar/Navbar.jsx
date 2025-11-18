@@ -1,7 +1,9 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { NavbarContainer, NavbarContent } from "./NavbarStyled";
 
 export function Navbar() {
+    const navigate = useNavigate();
+
     return (
         <>
             <NavbarContainer>
@@ -9,7 +11,7 @@ export function Navbar() {
                     <h5>Logo Qudra</h5>
                     <div>
                         <button>Reservas</button>
-                        <button>Pagamento</button>
+                        <button onClick={() => navigate("/home/pagamento")}>Pagamento</button>
                     </div>
                     <button>Logout</button>
                 </NavbarContent>

@@ -47,32 +47,9 @@ export const Quadra = styled.div`
         h2 {
             color: red;
         }
-        &::before {
-                content: "";
-                width: 100%;
-                height: 100%;
-                background-color: #0000006a;
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                border-radius: 10px;
-                z-index: 2;
-            }
-        span {
-            position: absolute;
-            z-index: 3;
-            top: 50%;
-            right: 50%;
-            transform: translate(50%, -50%);
-            background-color: red;
-            color: var(--light);
-            padding: 3px 8px;
-            border-radius: 10px;
-            
-        }
         &:hover {
-            box-shadow: 0 0 0 0 #00000052, 0 0 0 0 var(--dark) inset;
+            box-shadow: 0 5px 15px 0 #00000052, 0 0 0 0 var(--dark) inset;
+            color: var(--dark);
         }
     }
 `;

@@ -4,6 +4,7 @@ export const GlobalStyled = createGlobalStyle`
 /*Reset*/
 /* 17a1f1 */
 :root {
+  --main: #5dd60c;
   --dark: #151515;
   --light: #fff;
 }
@@ -194,5 +195,19 @@ svg path {
  align-items: center;
 }
 
+.btn {
+  background-color: var(--light);
+  box-shadow: 0 0 10px 30px var(--main) inset;
+  color: var(--light);
+  padding: 8px 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  max-width: fit-content;
+
+  &:hover {
+  box-shadow: 0 0 0 2px var(--main) inset;
+  color: var(--dark);
+  }
+}
 
 `;

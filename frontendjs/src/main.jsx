@@ -5,6 +5,7 @@ import { Authentication } from "./pages/Authentication/Authentication";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Home } from "./pages/Home/Home";
 import { GlobalStyled } from "./GlobalStyled";
+import { Pagamento } from "./pages/Pagamento/Pagamento";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/home/pagamento",
+        element: <Pagamento />,
       },
     ],
   },
