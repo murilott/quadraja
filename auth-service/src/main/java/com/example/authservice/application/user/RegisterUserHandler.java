@@ -32,7 +32,9 @@ public class RegisterUserHandler {
                 savedUser.getId(),
                 savedUser.getName(),
                 savedUser.getEmail().getValue(),
-                savedUser.getRole().getValue().name()
+                savedUser.getRole().getValue().name(),
+                savedUser.getPagamentosLista(),
+                savedUser.getReservasLista()
         );
     }
 }

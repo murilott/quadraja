@@ -6,6 +6,7 @@ Para iniciar no Codespace: docker compose up
 
 Outros comandos:
 - docker logs [pacote]
+- docker restart [pacote]
 
 Para criar outro pacote:
 1. Criar novo projeto spring (F1 -> java: new java project). Copiar as dependências do pacote auth-service ou quadra

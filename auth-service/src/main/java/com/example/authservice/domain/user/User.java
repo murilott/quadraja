@@ -32,6 +32,8 @@ public class User {
 
     private List<String> pagamentosLista = new ArrayList<String>();
 
+    private List<UUID> reservasLista = new ArrayList<UUID>();
+
     @Valid
     @Embedded
     private Email email;

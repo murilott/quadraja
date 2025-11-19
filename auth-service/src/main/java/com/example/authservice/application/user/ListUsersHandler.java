@@ -22,7 +22,9 @@ public class ListUsersHandler {
                 user.getId(),
                 user.getName(),
                 user.getEmail().getValue(),
-                user.getRole().getValue().name()
+                user.getRole().getValue().name(),
+                user.getPagamentosLista(),
+                user.getReservasLista()
         ));
     }
 }
