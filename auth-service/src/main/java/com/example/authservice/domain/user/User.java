@@ -1,6 +1,7 @@
 package com.example.authservice.domain.user;
 
 import com.example.authservice.domain.user.vo.Email;
+import com.example.authservice.domain.user.vo.Pagamentos;
 import com.example.authservice.domain.user.vo.Role;
 import com.example.authservice.domain.user.vo.RoleType;
 import jakarta.persistence.*;
@@ -30,9 +31,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private List<String> pagamentosLista = new ArrayList<String>();
+    @Valid
+    @Embedded
+    private Pagamentos pagamentosLista;
+    // private List<String> pagamentosLista = new ArrayList<String>();
 
-    private List<UUID> reservasLista = new ArrayList<UUID>();
+    private List<UUID> reservasLista;
 
     @Valid
     @Embedded
@@ -41,10 +45,16 @@ public class User {
     @Embedded
     private Role role;
 
+    public void addPagamento(String pagamentoValue) {
+        this.pagamentosLista.add(pagamentoValue);
+    }
+
     public User(String name, @Valid Email email, RoleType role, String password) {
         this.name = name;
         this.email = email;
         this.role = Role.of(role);
         this.password = password;
+        this.pagamentosLista = new Pagamentos();
+        this.reservasLista = new ArrayList<UUID>();
     }
 }

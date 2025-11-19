@@ -23,16 +23,16 @@ public class RegisterPagamentoUserHandler {
             () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email inválido ou usuário não cadastrado")
         );
 
-        // TODO: acessar usuario pelo rabbit
         String pagamento = pagamentoRequestProducer.solicitarPagamento(pagamentoNome);
 
-        user.getPagamentosLista().add(pagamento);
+        user.addPagamento(pagamento);
+        // user.getPagamentosLista().add(pagamento);
         User savedUser = userRepository.save(user);
 
         return new PagamentoUserResponse(
                 savedUser.getEmail().getValue(),
                 pagamento,
-                savedUser.getPagamentosLista()
+                savedUser.getPagamentosLista().getValue()
         );
     }
 }

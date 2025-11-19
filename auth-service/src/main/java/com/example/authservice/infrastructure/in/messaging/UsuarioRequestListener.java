@@ -32,7 +32,7 @@ public class UsuarioRequestListener {
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                             "(user - receber) User não encontrado: " + userEmail));
 
-            if (!user.getPagamentosLista().contains(pagamento)) {
+            if (!user.getPagamentosLista().getValue().contains(pagamento)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "(user - receber) Pagamento não associado ao usuário: " + pagamento);
             }

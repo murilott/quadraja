@@ -23,7 +23,7 @@ public class ListUsersHandler {
                 user.getName(),
                 user.getEmail().getValue(),
                 user.getRole().getValue().name(),
-                user.getPagamentosLista(),
+                user.getPagamentosLista().getValue(),
                 user.getReservasLista()
         ));
     }

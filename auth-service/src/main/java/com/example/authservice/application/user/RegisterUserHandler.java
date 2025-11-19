@@ -33,7 +33,7 @@ public class RegisterUserHandler {
                 savedUser.getName(),
                 savedUser.getEmail().getValue(),
                 savedUser.getRole().getValue().name(),
-                savedUser.getPagamentosLista(),
+                savedUser.getPagamentosLista().getValue(),
                 savedUser.getReservasLista()
         );
     }
