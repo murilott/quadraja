@@ -4,7 +4,7 @@ export const GlobalStyled = createGlobalStyle`
 /*Reset*/
 /* 17a1f1 */
 :root {
-  --main: #5dd60c;
+  --main: #57c90c;
   --dark: #151515;
   --light: #fff;
 }
@@ -206,7 +206,7 @@ svg path {
 
   &:hover {
   box-shadow: 0 0 0 2px var(--main) inset;
-  color: var(--dark);
+  color: var(--main);
   }
 }
 
