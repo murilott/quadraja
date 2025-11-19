@@ -22,6 +22,7 @@ public class PagamentoRequestListener {
     private final PagamentoRepository pagamentoRepository;
     // private final PagamentoResponseProducer responseProducer;
 
+    // reserva
     @RabbitListener(queues = RabbitConfig.QUEUE_NAME)
     public String receberSolicitacao(String pagamentoName) {
         try {
@@ -39,6 +40,7 @@ public class PagamentoRequestListener {
         }
     }
 
+    // auth-service
     @RabbitListener(queues = RabbitConfig.QUEUE_NAME_USER)
     public String receberSolicitacaoUser(String pagamentoName) {
         try {

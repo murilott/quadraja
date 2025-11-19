@@ -22,8 +22,39 @@ public class QuadraRequestListener {
     private final QuadraRepository quadraRepository;
     // private final QuadraResponseProducer responseProducer;
 
+    // @RabbitListener(queues = RabbitConfig.QUEUE_NAME)
+    // public Map<String, Object> receberSolicitacao(String quadraName) {
+    //     try {
+    //         System.out.println("📥 Pedido recebido para Quadra Name: " + quadraName);
+
+    //         Quadra quadra = quadraRepository.findByName(quadraName)
+    //                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+    //                         "(quadra - receber) Quadra não encontrada: " + quadraName));
+
+    //         // return new QuadraResponse(
+    //         // quadra.getId(),
+    //         // quadra.getName(),
+    //         // quadra.getLocal(),
+    //         // quadra.isAlugado(),
+    //         // quadra.getPrice().getValue(),
+    //         // quadra.getCategory().getValue());
+
+    //         return Map.of(
+    //                 "id", quadra.getId().toString(),
+    //                 "name", quadra.getName(),
+    //                 "local", quadra.getLocal(),
+    //                 "alugado", quadra.isAlugado(),
+    //                 "price", quadra.getPrice().getValue(),
+    //                 "category", quadra.getCategory().getValue().name());
+    //     } catch (Exception e) {
+    //         System.err.println("⚠️ Erro ao processar mensagem RabbitMQ: " + e.getMessage());
+
+    //         return null;
+    //     }
+    // }
+
     @RabbitListener(queues = RabbitConfig.QUEUE_NAME)
-    public Map<String, Object> receberSolicitacao(String quadraName) {
+    public String receberSolicitacao(String quadraName) {
         try {
             System.out.println("📥 Pedido recebido para Quadra Name: " + quadraName);
 
@@ -39,13 +70,7 @@ public class QuadraRequestListener {
             // quadra.getPrice().getValue(),
             // quadra.getCategory().getValue());
 
-            return Map.of(
-                    "id", quadra.getId().toString(),
-                    "name", quadra.getName(),
-                    "local", quadra.getLocal(),
-                    "alugado", quadra.isAlugado(),
-                    "price", quadra.getPrice().getValue(),
-                    "category", quadra.getCategory().getValue().name());
+            return quadra.getName();
         } catch (Exception e) {
             System.err.println("⚠️ Erro ao processar mensagem RabbitMQ: " + e.getMessage());
 

@@ -21,7 +21,7 @@ public class UsuarioRequestProducer {
         Object[] carga = {usuarioEmail, pagamento};
 
         Object response = rabbitTemplate.convertSendAndReceive(
-                RabbitConfig.EXCHANGE_NAME_USUARIO, // exchange
+                RabbitConfig.EXCHANGE_NAME, // exchange
                 RabbitConfig.ROUTING_KEY_USUARIO, // routing key
                 carga // mensagem (nome)
         );

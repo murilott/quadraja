@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    public static final String EXCHANGE_NAME = "quadra.rpc.exchange";
-    public static final String QUEUE_NAME = "quadra.rpc.queue";
-    public static final String ROUTING_KEY = "quadra.rpc.key";
+    public static final String EXCHANGE_NAME = "quadraja.exchange";
+    public static final String QUEUE_NAME = "quadra.queue";
+    public static final String ROUTING_KEY = "quadra.key";
 
     @Bean
     public DirectExchange quadraExchange() {
@@ -29,11 +29,6 @@ public class RabbitConfig {
     public Binding quadraBinding(Queue quadraQueue, DirectExchange quadraExchange) {
         return BindingBuilder.bind(quadraQueue).to(quadraExchange).with(ROUTING_KEY);
     }
-
-    // @Bean
-    // public MessageConverter jsonMessageConverter() {
-    //     return new Jackson2JsonMessageConverter();
-    // }
 
     @Bean
     public MessageConverter jsonMessageConverter() {

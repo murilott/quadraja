@@ -22,7 +22,7 @@ public class PagamentoRequestProducer {
         System.out.println("Solicitando pagamento via RabbitMQ: " + pagamentoName);
 
         Object response = rabbitTemplate.convertSendAndReceive(
-                RabbitConfig.EXCHANGE_NAME_PAGAMENTO, // exchange
+                RabbitConfig.EXCHANGE_NAME, // exchange
                 RabbitConfig.ROUTING_KEY_PAGAMENTO, // routing key
                 pagamentoName // mensagem (nome)
         );

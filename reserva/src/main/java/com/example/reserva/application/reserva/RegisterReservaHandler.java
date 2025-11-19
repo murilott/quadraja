@@ -14,8 +14,10 @@ import com.example.reserva.domain.quadra.vo.Price;
 import com.example.reserva.domain.reserva.Reserva;
 import com.example.reserva.domain.reserva.ReservaRepository;
 import com.example.reserva.domain.reserva.vo.Periodo;
+import com.example.reserva.infrastructure.in.messaging.ReservaCriadaResponse;
 import com.example.reserva.infrastructure.out.messaging.PagamentoRequestProducer;
 import com.example.reserva.infrastructure.out.messaging.QuadraRequestProducer;
+import com.example.reserva.infrastructure.out.messaging.ReservaRequestProducer;
 import com.example.reserva.infrastructure.out.messaging.UsuarioRequestProducer;
 import com.example.reserva.interfaces.rest.dto.quadra.QuadraResponse;
 import com.example.reserva.interfaces.rest.dto.reserva.ReservaResponse;
@@ -27,6 +29,7 @@ public class RegisterReservaHandler {
     private final QuadraRequestProducer quadraRequestProducer;
     private final PagamentoRequestProducer pagamentoRequestProducer;
     private final UsuarioRequestProducer usuarioRequestProducer;
+    private final ReservaRequestProducer reservaRequestProducer;
 
     public ReservaResponse handle(String quadraName, String usuarioEmail, LocalDateTime periodoRaw, String pagamento) {
         // TODO: Verificar se já existe reserva com mesmo período
@@ -35,12 +38,20 @@ public class RegisterReservaHandler {
         // }
         Periodo periodo = Periodo.of(periodoRaw);
 
-        QuadraResponse quadraResponse = quadraRequestProducer.solicitarQuadra(quadraName);
+        String quadraResponse = quadraRequestProducer.solicitarQuadra(quadraName);
         String pagamentoNome = pagamentoRequestProducer.solicitarPagamento(pagamento);
         String usuario = usuarioRequestProducer.solicitarUsuario(usuarioEmail, pagamentoNome);
 
-        Reserva reserva = new Reserva(quadraResponse.name(), usuario, periodo, pagamentoNome);
+        Reserva reserva = new Reserva(quadraResponse, usuario, periodo, pagamentoNome);
         Reserva savedReserva = reservaRepository.save(reserva);
+
+        reservaRequestProducer.publish(new ReservaCriadaResponse (
+            savedReserva.getId(), 
+            savedReserva.getQuadraName(), 
+            savedReserva.getUsuarioEmail(), 
+            savedReserva.getPeriodo().getValue(), 
+            savedReserva.getPagamento())
+        );
 
         return new ReservaResponse(
                 savedReserva.getId(),

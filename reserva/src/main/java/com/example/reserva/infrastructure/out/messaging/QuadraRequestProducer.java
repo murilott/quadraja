@@ -19,11 +19,53 @@ public class QuadraRequestProducer {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public QuadraResponse solicitarQuadra(String quadraName) {
+    // public QuadraResponse solicitarQuadra(String quadraName) {
+    //     System.out.println("Solicitando quadra via RabbitMQ: " + quadraName);
+
+    //     Object response = rabbitTemplate.convertSendAndReceive(
+    //             RabbitConfig.EXCHANGE_NAME, // exchange
+    //             RabbitConfig.ROUTING_KEY_QUADRA, // routing key
+    //             quadraName // mensagem (nome)
+    //     );
+
+    //     if (response == null) {
+    //         throw new RuntimeException("(reserva - solicitar) Quadra não encontrada: " + quadraName);
+    //     }
+
+    //     // System.out.println("Recebida resposta da quadra: " + quadra.name());
+    //     // return quadra;
+        
+    //     if (response instanceof Map<?, ?> map) {
+    //         // Converte os valores corretamente respeitando os tipos do DTO
+    //         UUID id = map.get("id") != null ? UUID.fromString(map.get("id").toString()) : null;
+    //         String name = (String) map.get("name");
+    //         String local = (String) map.get("local");
+    //         boolean alugado = map.get("alugado") != null && Boolean.parseBoolean(map.get("alugado").toString());
+    //         double price = map.get("price") != null ? Double.parseDouble(map.get("price").toString()) : 0.0;
+
+    //         CategoryType category = null;
+    //         if (map.get("category") != null) {
+    //             try {
+    //                 category = CategoryType.valueOf(map.get("category").toString());
+    //             } catch (IllegalArgumentException e) {
+    //                 System.err.println("⚠️ Categoria inválida recebida: " + map.get("category"));
+    //             }
+    //         }
+
+    //         QuadraResponse quadra = new QuadraResponse(id, name, local, alugado, price, category);
+
+    //         System.out.println("✅ Recebida resposta da quadra: " + quadra.name());
+    //         return quadra;
+    //     }
+
+    //     throw new RuntimeException("Resposta inesperada do serviço Quadra: " + response);
+    // }
+
+    public String solicitarQuadra(String quadraName) {
         System.out.println("Solicitando quadra via RabbitMQ: " + quadraName);
 
         Object response = rabbitTemplate.convertSendAndReceive(
-                RabbitConfig.EXCHANGE_NAME_QUADRA, // exchange
+                RabbitConfig.EXCHANGE_NAME, // exchange
                 RabbitConfig.ROUTING_KEY_QUADRA, // routing key
                 quadraName // mensagem (nome)
         );
@@ -33,31 +75,31 @@ public class QuadraRequestProducer {
         }
 
         // System.out.println("Recebida resposta da quadra: " + quadra.name());
-        // return quadra;
+        return response.toString();
         
-        if (response instanceof Map<?, ?> map) {
-            // Converte os valores corretamente respeitando os tipos do DTO
-            UUID id = map.get("id") != null ? UUID.fromString(map.get("id").toString()) : null;
-            String name = (String) map.get("name");
-            String local = (String) map.get("local");
-            boolean alugado = map.get("alugado") != null && Boolean.parseBoolean(map.get("alugado").toString());
-            double price = map.get("price") != null ? Double.parseDouble(map.get("price").toString()) : 0.0;
+        // if (response instanceof Map<?, ?> map) {
+        //     // Converte os valores corretamente respeitando os tipos do DTO
+        //     UUID id = map.get("id") != null ? UUID.fromString(map.get("id").toString()) : null;
+        //     String name = (String) map.get("name");
+        //     String local = (String) map.get("local");
+        //     boolean alugado = map.get("alugado") != null && Boolean.parseBoolean(map.get("alugado").toString());
+        //     double price = map.get("price") != null ? Double.parseDouble(map.get("price").toString()) : 0.0;
 
-            CategoryType category = null;
-            if (map.get("category") != null) {
-                try {
-                    category = CategoryType.valueOf(map.get("category").toString());
-                } catch (IllegalArgumentException e) {
-                    System.err.println("⚠️ Categoria inválida recebida: " + map.get("category"));
-                }
-            }
+        //     CategoryType category = null;
+        //     if (map.get("category") != null) {
+        //         try {
+        //             category = CategoryType.valueOf(map.get("category").toString());
+        //         } catch (IllegalArgumentException e) {
+        //             System.err.println("⚠️ Categoria inválida recebida: " + map.get("category"));
+        //         }
+        //     }
 
-            QuadraResponse quadra = new QuadraResponse(id, name, local, alugado, price, category);
+        //     QuadraResponse quadra = new QuadraResponse(id, name, local, alugado, price, category);
 
-            System.out.println("✅ Recebida resposta da quadra: " + quadra.name());
-            return quadra;
-        }
+        //     System.out.println("✅ Recebida resposta da quadra: " + quadra.name());
+        //     return quadra;
+        // }
 
-        throw new RuntimeException("Resposta inesperada do serviço Quadra: " + response);
+        // throw new RuntimeException("Resposta inesperada do serviço Quadra: " + response);
     }
 }

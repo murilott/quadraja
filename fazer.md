@@ -7,3 +7,15 @@
 
 serviço1 (solicitar) (out) -> precisa do exchange e routing key
 serviço2 (receber) (in) -> precisa do queue, exchange, routing key e binding 
+
+-> solicitar
+<- receber
+
+auth (-> pagamento) <- reserva
+pagamento <- reserva <- auth
+quadra <- reserva
+reserva -> pagamento, quadra, auth
+
+frontend
+discovery
+gateway
