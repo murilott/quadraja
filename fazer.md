@@ -3,6 +3,8 @@
 - autenticação nas rotas
 - listar as rotas no readme
 
+- validar datas da reserva
+- limpar avisos
 
 
 serviço1 (solicitar) (out) -> precisa do exchange e routing key

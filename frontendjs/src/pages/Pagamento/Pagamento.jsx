@@ -1,37 +1,42 @@
 import { useEffect, useState } from "react";
 import { CreatePagamentoModal, FormaPagamento, PagamentoBody, PagamentoContainer, PagamentoHeader } from "./PagamentoStyled"
-import { createPagamentoService } from "../../services/pagamentoService";
+import { createPagamentoService, getPagamentosService } from "../../services/pagamentoService";
 
 // comente essa linha
-const pagamentosList = [{id: 1, nome: "Cartão", tipo: "Crédito"}];
+// const pagamentosList = [{id: 1, nome: "Cartão", tipo: "Crédito"}];
+const pagamentosList = null;
 
 export function Pagamento() {
     const [novoPagamento, setNovoPagamento] = useState(false);
     const [pagamentos, setPagamentos] = useState(pagamentosList || []);
 
     async function getPagamentos() {
-        // const response = await getPagamentosService();
+        const response = await getPagamentosService();
 
         // tem que testar se os pagamentos vão vir direto no response.data, podem estar em outro item dentro dele,
         // use console.log para descobrir, deve sair a lista com os items
 
-        // setPagamentos(response.data);
-        setPagamentos(pagamentosList);
+        console.log(response.data.content);
+        
+        setPagamentos(response.data.content);
+        // setPagamentos(pagamentosList);
     }
 
     async function createPagamento(event) {
         event.preventDefault();
         const formdata = new FormData(event.target);
         const data = Object.fromEntries(formdata);
-        // await createPagamentoService(data);
-        // getPagamentos();
+        const response = await createPagamentoService(data);
+        console.log(response);
+        
+        getPagamentos();
         setNovoPagamento(false);
 
         // apague isso
-        var novaLista = [...pagamentos];
-        data.id = novaLista.length + 1;
-        novaLista.push(data);
-        setPagamentos(novaLista);
+        // var novaLista = [...pagamentos];
+        // data.id = novaLista.length + 1;
+        // novaLista.push(data);
+        // setPagamentos(novaLista);
     }
 
     useEffect(() => {

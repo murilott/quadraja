@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.UUID;
 
 
-@CrossOrigin("*")
+// @CrossOrigin("*")
 @RestController
 @RequestMapping("/pagamentos")
 @RequiredArgsConstructor
