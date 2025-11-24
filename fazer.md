@@ -5,6 +5,8 @@
 
 - validar datas da reserva
 - limpar avisos
+- portas(interface) nas classes do rabbit
+- opção admin na criação de user
 
 
 serviço1 (solicitar) (out) -> precisa do exchange e routing key

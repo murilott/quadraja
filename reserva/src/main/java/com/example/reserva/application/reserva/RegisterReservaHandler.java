@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,11 +34,16 @@ public class RegisterReservaHandler {
     private final ReservaRequestProducer reservaRequestProducer;
 
     public ReservaResponse handle(String quadraName, String usuarioEmail, LocalDateTime periodoRaw, String pagamento) {
-        // TODO: Verificar se já existe reserva com mesmo período
-        // if (reservaRepository.findAll().stream().anyMatch(r -> r.getPeriodo().equals(periodo))) {
-        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "Reserva já cadastrada");
-        // }
         Periodo periodo = Periodo.of(periodoRaw);
+
+        Pageable pageable = PageRequest.of(0, 50); 
+        // TODO: Verificar se já existe reserva com mesmo período
+        if (reservaRepository.findAll(pageable).stream().anyMatch(r ->
+                r.getQuadraName().equals(quadraName) &&
+                r.getPeriodo().getValue().toLocalDate().equals(periodo.getValue().toLocalDate()))
+            ) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Este período já está reservado para esta quadra.");
+        }
 
         String quadraResponse = quadraRequestProducer.solicitarQuadra(quadraName);
         String pagamentoNome = pagamentoRequestProducer.solicitarPagamento(pagamento);
