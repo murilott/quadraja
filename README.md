@@ -37,8 +37,9 @@ curl -X POST http://localhost:8084/users/register \
      -H "Content-Type: application/json" \
      -d '{
            "name": "Murilo Teste",
-           "email": "murilo.teste@example.com",
-           "password": "12345678"
+           "email": "murilo.admin@example.com",
+           "password": "12345678",
+           "admin": true
          }'
 ```
 Adicionar pagamento ao usuário:

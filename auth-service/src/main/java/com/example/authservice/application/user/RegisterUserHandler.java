@@ -17,15 +17,22 @@ public class RegisterUserHandler {
     private final UserRepository userRepository;
     private final PasswordHasher passwordHasher;
 
-    public UserResponse handle(String name, String emailRaw, String passwordRaw) {
+    public UserResponse handle(String name, String emailRaw, String passwordRaw, boolean admin) {
         Email email = Email.of(emailRaw);
 
         if (userRepository.existsByEmail(email.getValue())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email já cadastrado");
         }
+        RoleType role;
+
+        if (admin) {
+            role = RoleType.ADMIN;
+        } else {
+            role = RoleType.CLIENT;
+        }
 
         String hashedPassword = passwordHasher.hash(passwordRaw);
-        User user = new User(name, email, RoleType.CLIENT, hashedPassword);
+        User user = new User(name, email, role, hashedPassword);
         User savedUser = userRepository.save(user);
 
         return new UserResponse(

@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterUserRequest request) {
-        UserResponse created = registerUserHandler.handle(request.name(), request.email(), request.password());
+        UserResponse created = registerUserHandler.handle(request.name(), request.email(), request.password(), request.admin());
 
         return ResponseEntity.created(URI.create("/users/" + created.id())).body(created);
     }
