@@ -25,6 +25,11 @@ curl -X POST http://localhost:8082/quadras \
 -H "Content-Type: application/json" \
 -d '{"name": "Quadra Central", "local": "Pátio 2", "price": 100.0, "category": "FUTEBOL"}'
 ```
+Acessar quadra pelo gateway
+```
+curl -X GET "http://localhost:8083/quadra" \
+     -H "Authorization: Bearer TOKEN_AQUI"
+```
 Adicionar pagamento:
 ```
 curl -X POST http://localhost:8086/pagamentos \
@@ -37,9 +42,17 @@ curl -X POST http://localhost:8084/users/register \
      -H "Content-Type: application/json" \
      -d '{
            "name": "Murilo Teste",
-           "email": "murilo.admin@example.com",
+           "email": "murilo.teste@example.com",
            "password": "12345678",
-           "admin": true
+           "admin": false
+         }'
+Logar usuário:
+```
+curl -X POST http://localhost:8084/auth/login/password \
+     -H "Content-Type: application/json" \
+     -d '{
+           "email": "murilo.teste@example.com",
+           "password": "12345678"
          }'
 ```
 Adicionar pagamento ao usuário:
