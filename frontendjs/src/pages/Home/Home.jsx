@@ -1,20 +1,149 @@
+import { useEffect, useState } from "react";
 import { HomeContainer, HomeContent, Quadra } from "./HomeStyled";
 
-const quadras = [{id: 1, name: "Quadra 1", alugado: true, local: "Pátio 1", price: 100, category: "Basquete"}, {id: 2, name: "Quadra 2", alugado: false, local: "Pátio 3", price: 200, category: "Vôlei"}, {id: 3, name: "Quadra 3", alugado: true, local: "Pátio 3", price: 120, category: "Basquete"}, {id: 4, name: "Quadra 4", alugado: false, local: "Pátio 4", price: 230, category: "Vôlei"}]
-
 export function Home() {
+
+    const [quadras, setQuadras] = useState([]);
+    const [novoModal, setNovoModal] = useState(false);
+    const [reservaModal, setReservaModal] = useState(null);
+    const [pagamentos, setPagamentos] = useState([]);
+
+    function load(key) {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : [];
+    }
+
+    function save(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    useEffect(() => {
+        const quadrasCache = load("quadras");
+        const pagamentosCache = load("pagamentos");
+        const reservasCache = load("reservas");
+
+        if (quadrasCache.length === 0) {
+            save("quadras", initialQuadras);
+            setQuadras(initialQuadras);
+        } else {
+            setQuadras(quadrasCache);
+        }
+
+        setPagamentos(pagamentosCache);
+    }, []);
+
+    const initialQuadras = [
+        { id: 1, name: "Quadra 1", alugado: true, local: "Pátio 1", price: 100, category: "Basquete" },
+        { id: 2, name: "Quadra 2", alugado: false, local: "Pátio 3", price: 200, category: "Vôlei" },
+        { id: 3, name: "Quadra 3", alugado: true, local: "Pátio 3", price: 120, category: "Basquete" },
+        { id: 4, name: "Quadra 4", alugado: false, local: "Pátio 4", price: 230, category: "Vôlei" }
+    ];
+
+    function criarQuadra(event) {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(event.target));
+
+        const novaLista = [...quadras];
+        data.id = novaLista.length > 0 ? novaLista[novaLista.length - 1].id + 1 : 1;
+        data.alugado = false;
+
+        novaLista.push(data);
+        save("quadras", novaLista);
+        setQuadras(novaLista);
+
+        setNovoModal(false);
+    }
+
+    function reservarQuadra(event) {
+        event.preventDefault();
+        const form = Object.fromEntries(new FormData(event.target));
+
+        const reservas = load("reservas");
+        form.id = reservas.length + 1;
+        form.quadra = reservaModal;
+
+        reservas.push(form);
+        save("reservas", reservas);
+
+        const novasQuadras = quadras.map(q =>
+            q.id === reservaModal ? { ...q, alugado: true } : q
+        );
+
+        save("quadras", novasQuadras);
+        setQuadras(novasQuadras);
+
+        setReservaModal(null);
+    }
+
     return (
         <HomeContainer>
+            {novoModal && (
+                <div className="modal">
+                    <form onSubmit={criarQuadra}>
+                        <h2>Nova Quadra</h2>
+
+                        <label>Nome</label>
+                        <input name="name" />
+
+                        <label>Local</label>
+                        <input name="local" />
+
+                        <label>Preço</label>
+                        <input name="price" type="number" />
+
+                        <label>Categoria</label>
+                        <input name="category" />
+
+                        <button type="submit">Criar</button>
+                        <button type="button" onClick={() => setNovoModal(false)}>Fechar</button>
+                    </form>
+                </div>
+            )}
+
+            {reservaModal && (
+                <div className="modal">
+                    <form onSubmit={reservarQuadra}>
+                        <h2>Reservar Quadra</h2>
+
+                        <label>Nome</label>
+                        <input name="nome" required />
+
+                        <label>Pagamento</label>
+                        <select name="pagamento" required>
+                            <option value="">Escolher...</option>
+                            {pagamentos.map(p => (
+                                <option key={p.id} value={p.nome}>{p.nome}</option>
+                            ))}
+                        </select>
+
+                        <label>Dia</label>
+                        <input type="date" name="dia" required />
+
+                        <button type="submit">Reservar</button>
+                        <button type="button" onClick={() => setReservaModal(null)}>Fechar</button>
+                    </form>
+                </div>
+            )}
+
+            {/* BOTÃO NOVA QUADRA */}
+            <button className="btn" onClick={() => setNovoModal(true)}>
+                Nova Quadra
+            </button>
+
             <HomeContent>
                 {quadras && quadras.length > 0 && (
                     quadras.map((quadra) => (
-                        <Quadra className={quadra.alugado ? "alugado" : ""} >
+                        <Quadra
+                            key={quadra.id}
+                            className={quadra.alugado ? "alugado" : ""}
+                            onClick={!quadra.alugado ? () => setReservaModal(quadra.id) : ""}
+                        >
                             <h2>{quadra.name}</h2>
                             <div>
                                 <h4>{quadra.local}</h4>
-                            <h3>{quadra.category}</h3>
+                                <h3>{quadra.category}</h3>
                             </div>
-                            <h6>{quadra.price}</h6>
+                            <h6>R${quadra.price}</h6>
                         </Quadra>
                     ))
                 )}
