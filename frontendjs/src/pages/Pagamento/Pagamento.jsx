@@ -6,7 +6,6 @@ export function Pagamento() {
     const [novoPagamento, setNovoPagamento] = useState(false);
     const [pagamentos, setPagamentos] = useState([]);
 
-    // Carrega do localStorage
     function carregarPagamentosStorage() {
         const data = localStorage.getItem("pagamentos");
         if (data) {
@@ -15,7 +14,6 @@ export function Pagamento() {
         return [];
     }
 
-    // Salva no localStorage
     function salvarPagamentosStorage(lista) {
         localStorage.setItem("pagamentos", JSON.stringify(lista));
     }
@@ -34,7 +32,6 @@ export function Pagamento() {
 
         const novaLista = [...pagamentos];
         
-        // gera ID simples
         data.id = novaLista.length > 0 ? novaLista[novaLista.length - 1].id + 1 : 1;
 
         novaLista.push(data);
@@ -76,7 +73,6 @@ export function Pagamento() {
                         <h3>{item.nome}</h3>
                         <h4>{item.tipo}</h4>
 
-                        {/* Botão de excluir */}
                         <button 
                             className="btn" 
                             style={{ marginTop: "10px" }}

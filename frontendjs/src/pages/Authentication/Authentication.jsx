@@ -13,21 +13,33 @@ export function Authentication() {
             return;
         }
 
-        // Verifica se é admin
-        const adminEmails = ["joao@gmail.com", "murilo@gmail.com"];
-        const isAdmin = adminEmails.includes(email.toLowerCase());
+        const emailLower = email.toLowerCase();
 
-        // Cria usuário fake
+        const adminCredentials = {
+            "joao@gmail.com": "Joao1234",
+            "murilo@gmail.com": "murilo1234"
+        };
+
+        if (emailLower in adminCredentials) {
+            if (password !== adminCredentials[emailLower]) {
+                alert("E-mail ou senha está incorretos!");
+                return;
+            }
+        } else {
+            if (password.length < 6) {
+                alert("A senha deve ter pelo menos 6 caracteres!");
+                return;
+            }
+        }
+
         const userData = {
             email,
-            admin: isAdmin,
+            admin: emailLower in adminCredentials,
             logged: true
         };
 
-        // Salva no localStorage
         localStorage.setItem("user", JSON.stringify(userData));
 
-        // Redireciona
         navigate("/home");
     }
 
@@ -53,9 +65,8 @@ export function Authentication() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+                <button onClick={handleLogin} className="btn">Logar</button>
             </AuthenticationContent>
-
-            <button onClick={handleLogin}>Logar</button>
         </AuthenticationContainer>
     );
 }

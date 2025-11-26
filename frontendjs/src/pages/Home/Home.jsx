@@ -19,7 +19,6 @@ export function Home() {
         localStorage.setItem(key, JSON.stringify(value));
     }
 
-    // ---------- QUADRAS INICIAIS (SEM ALUGADO!) ----------
     const initialQuadras = [
         { id: 1, name: "Quadra 1", local: "Pátio 1", price: 100, category: "Basquete" },
         { id: 2, name: "Quadra 2", local: "Pátio 3", price: 200, category: "Vôlei" },
@@ -27,7 +26,6 @@ export function Home() {
         { id: 4, name: "Quadra 4", local: "Pátio 4", price: 230, category: "Vôlei" }
     ];
 
-    // ---------- VERIFICA SE UMA QUADRA ESTÁ RESERVADA HOJE ----------
    function quadraEstaReservadaHoje(quadraId) {
         const usersKeys = Object.keys(localStorage).filter(k =>
             k.startsWith("reservas_")
@@ -44,7 +42,6 @@ export function Home() {
         return false;
     }
 
-    // ---------- CARREGA LOCALSTORAGE ----------
     useEffect(() => {
         const quadrasCache = load("quadras");
         const pagamentosCache = load("pagamentos");
@@ -59,7 +56,6 @@ export function Home() {
         setPagamentos(pagamentosCache);
     }, []);
 
-    // ---------- CRIAR QUADRA ----------
     function criarQuadra(event) {
         event.preventDefault();
         const data = Object.fromEntries(new FormData(event.target));
@@ -74,7 +70,6 @@ export function Home() {
         setNovoModal(false);
     }
 
-    // ---------- RESERVAR QUADRA ----------
     function reservarQuadra(event) {
         event.preventDefault();
         const form = Object.fromEntries(new FormData(event.target));
@@ -92,7 +87,7 @@ export function Home() {
 
         const novaReserva = {
             id: reservasDoUsuario.length + 1,
-            quadraId: reservaModal.id,   // usamos ID
+            quadraId: reservaModal.id,
             quadra: reservaModal.nome,
             pagamento: form.pagamento,
             dia: form.dia,
@@ -108,7 +103,6 @@ export function Home() {
     return (
         <HomeContainer>
             
-            {/* MODAL NOVA QUADRA */}
             {novoModal && (
                 <div className="modal">
                     <form onSubmit={criarQuadra}>
@@ -132,7 +126,6 @@ export function Home() {
                 </div>
             )}
 
-            {/* MODAL RESERVA */}
             {reservaModal && (
                 <div className="modal">
                     <form onSubmit={reservarQuadra}>
@@ -154,15 +147,12 @@ export function Home() {
                     </form>
                 </div>
             )}
-
-            {/* BOTÃO ADMIN */}
             {user.admin && (
                 <button className="btn" onClick={() => setNovoModal(true)}>
                     Nova Quadra
                 </button>
             )}
 
-            {/* LISTA DE QUADRAS */}
             <HomeContent>
                 {quadras && quadras.length > 0 && (
                     quadras.map((quadra) => {
