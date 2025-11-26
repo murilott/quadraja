@@ -8,6 +8,8 @@ export function Home() {
     const [reservaModal, setReservaModal] = useState(null);
     const [pagamentos, setPagamentos] = useState([]);
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
     function load(key) {
         const data = localStorage.getItem(key);
         return data ? JSON.parse(data) : [];
@@ -17,10 +19,35 @@ export function Home() {
         localStorage.setItem(key, JSON.stringify(value));
     }
 
+    // ---------- QUADRAS INICIAIS (SEM ALUGADO!) ----------
+    const initialQuadras = [
+        { id: 1, name: "Quadra 1", local: "Pátio 1", price: 100, category: "Basquete" },
+        { id: 2, name: "Quadra 2", local: "Pátio 3", price: 200, category: "Vôlei" },
+        { id: 3, name: "Quadra 3", local: "Pátio 3", price: 120, category: "Basquete" },
+        { id: 4, name: "Quadra 4", local: "Pátio 4", price: 230, category: "Vôlei" }
+    ];
+
+    // ---------- VERIFICA SE UMA QUADRA ESTÁ RESERVADA HOJE ----------
+   function quadraEstaReservadaHoje(quadraId) {
+        const usersKeys = Object.keys(localStorage).filter(k =>
+            k.startsWith("reservas_")
+        );
+
+        const hoje = new Date().toISOString().split("T")[0];
+
+        for (const key of usersKeys) {
+            const reservas = load(key);
+            const temHoje = reservas.some(r => r.quadraId === quadraId && r.dia === hoje);
+            if (temHoje) return true;
+        }
+
+        return false;
+    }
+
+    // ---------- CARREGA LOCALSTORAGE ----------
     useEffect(() => {
         const quadrasCache = load("quadras");
         const pagamentosCache = load("pagamentos");
-        const reservasCache = load("reservas");
 
         if (quadrasCache.length === 0) {
             save("quadras", initialQuadras);
@@ -32,20 +59,13 @@ export function Home() {
         setPagamentos(pagamentosCache);
     }, []);
 
-    const initialQuadras = [
-        { id: 1, name: "Quadra 1", alugado: true, local: "Pátio 1", price: 100, category: "Basquete" },
-        { id: 2, name: "Quadra 2", alugado: false, local: "Pátio 3", price: 200, category: "Vôlei" },
-        { id: 3, name: "Quadra 3", alugado: true, local: "Pátio 3", price: 120, category: "Basquete" },
-        { id: 4, name: "Quadra 4", alugado: false, local: "Pátio 4", price: 230, category: "Vôlei" }
-    ];
-
+    // ---------- CRIAR QUADRA ----------
     function criarQuadra(event) {
         event.preventDefault();
         const data = Object.fromEntries(new FormData(event.target));
 
         const novaLista = [...quadras];
         data.id = novaLista.length > 0 ? novaLista[novaLista.length - 1].id + 1 : 1;
-        data.alugado = false;
 
         novaLista.push(data);
         save("quadras", novaLista);
@@ -54,29 +74,41 @@ export function Home() {
         setNovoModal(false);
     }
 
+    // ---------- RESERVAR QUADRA ----------
     function reservarQuadra(event) {
         event.preventDefault();
         const form = Object.fromEntries(new FormData(event.target));
 
-        const reservas = load("reservas");
-        form.id = reservas.length + 1;
-        form.quadra = reservaModal;
+        const user = JSON.parse(localStorage.getItem("user"));
+        const userEmail = user?.email;
 
-        reservas.push(form);
-        save("reservas", reservas);
+        if (!userEmail) {
+            alert("Usuário não encontrado!");
+            return;
+        }
 
-        const novasQuadras = quadras.map(q =>
-            q.id === reservaModal ? { ...q, alugado: true } : q
-        );
+        const reservasKey = `reservas_${userEmail}`;
+        const reservasDoUsuario = load(reservasKey);
 
-        save("quadras", novasQuadras);
-        setQuadras(novasQuadras);
+        const novaReserva = {
+            id: reservasDoUsuario.length + 1,
+            quadraId: reservaModal.id,   // usamos ID
+            quadra: reservaModal.nome,
+            pagamento: form.pagamento,
+            dia: form.dia,
+            email: userEmail
+        };
+
+        reservasDoUsuario.push(novaReserva);
+        save(reservasKey, reservasDoUsuario);
 
         setReservaModal(null);
     }
 
     return (
         <HomeContainer>
+            
+            {/* MODAL NOVA QUADRA */}
             {novoModal && (
                 <div className="modal">
                     <form onSubmit={criarQuadra}>
@@ -100,13 +132,11 @@ export function Home() {
                 </div>
             )}
 
+            {/* MODAL RESERVA */}
             {reservaModal && (
                 <div className="modal">
                     <form onSubmit={reservarQuadra}>
                         <h2>Reservar Quadra</h2>
-
-                        <label>Nome</label>
-                        <input name="nome" required />
 
                         <label>Pagamento</label>
                         <select name="pagamento" required>
@@ -125,27 +155,34 @@ export function Home() {
                 </div>
             )}
 
-            {/* BOTÃO NOVA QUADRA */}
-            <button className="btn" onClick={() => setNovoModal(true)}>
-                Nova Quadra
-            </button>
+            {/* BOTÃO ADMIN */}
+            {user.admin && (
+                <button className="btn" onClick={() => setNovoModal(true)}>
+                    Nova Quadra
+                </button>
+            )}
 
+            {/* LISTA DE QUADRAS */}
             <HomeContent>
                 {quadras && quadras.length > 0 && (
-                    quadras.map((quadra) => (
-                        <Quadra
-                            key={quadra.id}
-                            className={quadra.alugado ? "alugado" : ""}
-                            onClick={!quadra.alugado ? () => setReservaModal(quadra.id) : ""}
-                        >
-                            <h2>{quadra.name}</h2>
-                            <div>
-                                <h4>{quadra.local}</h4>
-                                <h3>{quadra.category}</h3>
-                            </div>
-                            <h6>R${quadra.price}</h6>
-                        </Quadra>
-                    ))
+                    quadras.map((quadra) => {
+                        const estaAlugada = quadraEstaReservadaHoje(quadra.id);
+
+                        return (
+                            <Quadra
+                                key={quadra.id}
+                                className={estaAlugada ? "alugado" : ""}
+                                onClick={!estaAlugada ? () => setReservaModal(quadra) : undefined}
+                            >
+                                <h2>{quadra.name}</h2>
+                                <div>
+                                    <h4>{quadra.local}</h4>
+                                    <h3>{quadra.category}</h3>
+                                </div>
+                                <h6>R${quadra.price}</h6>
+                            </Quadra>
+                        );
+                    })
                 )}
             </HomeContent>
         </HomeContainer>

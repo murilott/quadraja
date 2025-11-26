@@ -10,7 +10,8 @@ export function Navbar() {
                 <NavbarContent>
                     <h5>Logo Qudra</h5>
                     <div>
-                        <button onClick={() => navigate("/home/")}>Reservas</button>
+                        <button onClick={() => navigate("/home/")}>Quadras</button>
+                        <button onClick={() => navigate("/home/reservas")}>Reservas</button>
                         <button onClick={() => navigate("/home/pagamento")}>Pagamento</button>
                     </div>
                     <button>Logout</button>
