@@ -6,6 +6,8 @@ export function Pagamento() {
     const [novoPagamento, setNovoPagamento] = useState(false);
     const [pagamentos, setPagamentos] = useState([]);
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    
     function carregarPagamentosStorage() {
         const data = localStorage.getItem("pagamentos");
         if (data) {
@@ -19,7 +21,6 @@ export function Pagamento() {
     }
 
     async function getPagamentos() {
-        // Aqui seria a chamada da API, mas por enquanto puxa só do storage
         const lista = carregarPagamentosStorage();
         setPagamentos(lista);
     }
@@ -63,9 +64,11 @@ export function Pagamento() {
                 <button className="btn">Enviar</button>
             </CreatePagamentoModal>
 
-            <PagamentoHeader>
+            {user.admin && (
+                <PagamentoHeader>
                 <button className="btn" onClick={() => setNovoPagamento(!novoPagamento)}>Novo Pagamento</button>
             </PagamentoHeader>
+            )}
 
             <PagamentoBody>
                 {pagamentos.length > 0 && pagamentos.map((item) => (
@@ -73,12 +76,12 @@ export function Pagamento() {
                         <h3>{item.nome}</h3>
                         <h4>{item.tipo}</h4>
 
-                        <button 
+                        {user.admin && (<button 
                             className="btn" 
                             onClick={() => deletePagamento(item.id)}
                         >
                             Excluir
-                        </button>
+                        </button>)}
                     </FormaPagamento>
                 ))}
             </PagamentoBody>

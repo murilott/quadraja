@@ -7,34 +7,33 @@ export function Authentication() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    function handleLogin() {
+    function handleLogin(e) {
+        e.preventDefault();
         if (!email || !password) {
             alert("Preencha todos os campos!");
             return;
         }
 
-        const emailLower = email.toLowerCase();
+        const emailLower = email.toLowerCase().trim();
 
-        const adminCredentials = {
-            "joao@gmail.com": "Joao1234",
-            "murilo@gmail.com": "murilo1234"
-        };
+        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-        if (emailLower in adminCredentials) {
-            if (password !== adminCredentials[emailLower]) {
-                alert("E-mail ou senha está incorretos!");
-                return;
-            }
-        } else {
-            if (password.length < 6) {
-                alert("A senha deve ter pelo menos 6 caracteres!");
-                return;
-            }
+        const usuarioEncontrado = usuarios.find(u => u.email === emailLower);
+
+        if (!usuarioEncontrado) {
+            alert("Nenhum vivente com esse e-mail foi encontrado!");
+            return;
+        }
+
+        if (usuarioEncontrado.senha !== password) {
+            alert("Senha incorreta, tchê!");
+            return;
         }
 
         const userData = {
-            email,
-            admin: emailLower in adminCredentials,
+            nome: usuarioEncontrado.nome,
+            email: usuarioEncontrado.email,
+            admin: usuarioEncontrado.admin,
             logged: true
         };
 

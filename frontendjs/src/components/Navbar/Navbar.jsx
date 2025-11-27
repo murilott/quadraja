@@ -5,6 +5,8 @@ export function Navbar() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
     const path = location.pathname;
 
     function handleLogout() {
@@ -42,6 +44,15 @@ export function Navbar() {
                         >
                             Pagamento
                         </button>
+
+                        {user.admin && (
+                            <button
+                            className={path.includes("/home/usuarios") ? "ativo" : ""}
+                            onClick={() => navigate("/home/usuarios")}
+                        >
+                            Usuários
+                        </button>
+                        )}
                     </div>
 
                     <button onClick={handleLogout}><img src="https://www.svgrepo.com/show/506720/logout.svg" alt="" /></button>

@@ -225,4 +225,73 @@ svg path {
   }
 }
 
+.modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+        background-color: #0000002b;
+        backdrop-filter: blur(2px);
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        form {
+            display: grid;
+            justify-items: center;
+            gap: 5px;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: var(--light);
+            box-shadow: 0 4px 10px #0000004c;
+            border-radius: 10px;
+
+            h2 {
+                font-size: 1.7rem;
+                font-weight: 600;
+                color: var(--main);
+            }
+            input + label {
+                margin-top: 10px;
+            }
+            label {
+                font-size: 20px;
+                margin-right: auto;
+                margin-left: 32px;
+            }
+
+            input {
+                border: none;
+                box-shadow: 0 2px 4px #00000053;
+                border-radius: 10px;
+                padding: 5px;
+                max-width: 300px;
+                width: 100%;
+                outline: none;
+            }
+            select {
+                width: 100%;
+                max-width: 300px;
+                padding: 7px 5px;
+                border: none;
+                box-shadow: 0 2px 4px #00000053;
+                border-radius: 10px;
+                outline: none;
+                margin-bottom: 10px;
+            }
+            .guardabtn {
+                margin-top: 10px;
+                display: flex;
+                gap: 15px;
+            }
+        }
+        .guardabtn {
+                margin-top: 10px;
+                display: flex;
+                gap: 15px;
+            }
+    }
+
 `;

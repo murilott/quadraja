@@ -31,7 +31,7 @@ export function Reservas() {
             <h3>Minhas Reservas:</h3>
 
             <ReservasContent>
-                {reservasOrdenadas && reservasOrdenadas.length > 0 && (
+                {reservasOrdenadas && reservasOrdenadas.length > 0 ? (
                     reservasOrdenadas.map((reserva) => (
                         <UmaReserva
                             key={reserva.id}
@@ -42,6 +42,8 @@ export function Reservas() {
                             <h4>Pago com: <strong>{reserva.pagamento}</strong></h4>
                         </UmaReserva>
                     ))
+                ) : (
+                    <p>Eu não tenho nenhuma reserva!</p>
                 )}
             </ReservasContent>
         </ReservasContainer>

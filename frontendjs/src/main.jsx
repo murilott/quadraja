@@ -7,6 +7,7 @@ import { Home } from "./pages/Home/Home";
 import { GlobalStyled } from "./GlobalStyled";
 import { Pagamento } from "./pages/Pagamento/Pagamento";
 import { Reservas } from "./pages/Reservas/Reservas";
+import { Usuarios } from "./pages/Usuarios/Usuarios";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/home/reservas",
         element: <Reservas />,
+      },
+      {
+        path: "/home/usuarios",
+        element: <Usuarios />,
       },
     ],
   },
