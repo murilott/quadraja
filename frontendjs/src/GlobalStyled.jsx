@@ -210,4 +210,19 @@ svg path {
   }
 }
 
+.btn-danger {
+  background-color: var(--light);
+  box-shadow: 0 0 10px 30px #f30a0a inset;
+  color: var(--light);
+  padding: 8px 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  max-width: fit-content;
+
+  &:hover {
+  box-shadow: 0 0 0 2px #f30a0a inset;
+  color: #f30a0a;
+  }
+}
+
 `;

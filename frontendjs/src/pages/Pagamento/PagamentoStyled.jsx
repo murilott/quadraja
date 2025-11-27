@@ -19,8 +19,9 @@ export const PagamentoBody = styled.div`
     justify-items: center;
 `;
 export const FormaPagamento = styled.article`
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
     max-width: 500px;
     width: 100%;
     padding: 10px 20px;
@@ -30,6 +31,12 @@ export const FormaPagamento = styled.article`
     box-shadow: 0 3px 6px #00000053;
     h4 {
         color: var(--main);
+        margin: 0 auto;
+        text-align: center;
+    }
+    .btn {
+        margin-left: auto;
+        margin-top: 0;
     }
 `;
 export const CreatePagamentoModal = styled.form`

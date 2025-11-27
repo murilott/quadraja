@@ -57,48 +57,103 @@ export function Home() {
     }, []);
 
     function criarQuadra(event) {
-        event.preventDefault();
-        const data = Object.fromEntries(new FormData(event.target));
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.target));
 
-        const novaLista = [...quadras];
-        data.id = novaLista.length > 0 ? novaLista[novaLista.length - 1].id + 1 : 1;
-
-        novaLista.push(data);
-        save("quadras", novaLista);
-        setQuadras(novaLista);
-
-        setNovoModal(false);
+    // validações
+    if (!data.name || data.name.trim() === "") {
+        alert("Preencha o nome da quadra!");
+        return;
     }
 
-    function reservarQuadra(event) {
-        event.preventDefault();
-        const form = Object.fromEntries(new FormData(event.target));
-
-        const user = JSON.parse(localStorage.getItem("user"));
-        const userEmail = user?.email;
-
-        if (!userEmail) {
-            alert("Usuário não encontrado!");
-            return;
-        }
-
-        const reservasKey = `reservas_${userEmail}`;
-        const reservasDoUsuario = load(reservasKey);
-
-        const novaReserva = {
-            id: reservasDoUsuario.length + 1,
-            quadraId: reservaModal.id,
-            quadra: reservaModal.nome,
-            pagamento: form.pagamento,
-            dia: form.dia,
-            email: userEmail
-        };
-
-        reservasDoUsuario.push(novaReserva);
-        save(reservasKey, reservasDoUsuario);
-
-        setReservaModal(null);
+    if (!data.local || data.local.trim() === "") {
+        alert("Preencha o local da quadra!");
+        return;
     }
+
+    if (!data.price || isNaN(Number(data.price)) || Number(data.price) <= 0) {
+        alert("O preço deve ser um número maior que zero!");
+        return;
+    }
+
+    if (!data.category || data.category.trim() === "") {
+        alert("Preencha a categoria!");
+        return;
+    }
+
+    const novaLista = [...quadras];
+    data.id = novaLista.length > 0 ? novaLista[novaLista.length - 1].id + 1 : 1;
+
+    novaLista.push(data);
+    save("quadras", novaLista);
+    setQuadras(novaLista);
+
+    setNovoModal(false);
+}
+
+function excluirQuadra(id) {
+    if (quadraEstaReservadaHoje(id)) {
+        alert("Não dá pra excluir uma quadra que tá reservada hoje");
+        return;
+    }
+
+    if (!confirm("Tem certeza que quer apagar essa quadra?")) return;
+
+    const novaLista = quadras.filter(q => q.id !== id);
+
+    save("quadras", novaLista);
+    setQuadras(novaLista);
+}
+
+
+
+function reservarQuadra(event) {
+    event.preventDefault();
+    const form = Object.fromEntries(new FormData(event.target));
+
+    if (!form.pagamento || form.pagamento === "") {
+        alert("Escolha uma forma de pagamento!");
+        return;
+    }
+
+    const hoje = new Date().toISOString().split("T")[0];
+
+    if (!form.dia) {
+        alert("Escolha uma data!");
+        return;
+    }
+
+    if (form.dia < hoje) {
+        alert("Não dá pra reservar pra ontem!");
+        return;
+    }
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userEmail = user?.email;
+
+    if (!userEmail) {
+        alert("Usuário não encontrado!");
+        return;
+    }
+
+    const reservasKey = `reservas_${userEmail}`;
+    const reservasDoUsuario = load(reservasKey);
+
+    const novaReserva = {
+        id: reservasDoUsuario.length + 1,
+        quadraId: reservaModal.id,
+        quadra: reservaModal.nome,
+        pagamento: form.pagamento,
+        dia: form.dia,
+        email: userEmail
+    };
+
+    reservasDoUsuario.push(novaReserva);
+    save(reservasKey, reservasDoUsuario);
+
+    setReservaModal(null);
+}
+
 
     return (
         <HomeContainer>
@@ -108,9 +163,9 @@ export function Home() {
                     <form onSubmit={criarQuadra}>
                         <h2>Nova Quadra</h2>
 
-                        <label>Nome</label>
+<                       label>Nome</label>
                         <input name="name" />
-
+                        
                         <label>Local</label>
                         <input name="local" />
 
@@ -120,8 +175,10 @@ export function Home() {
                         <label>Categoria</label>
                         <input name="category" />
 
-                        <button type="submit">Criar</button>
-                        <button type="button" onClick={() => setNovoModal(false)}>Fechar</button>
+                        <div className="guardabtn">
+                            <button type="submit" className="btn">Criar</button>
+                            <button type="button" onClick={() => setNovoModal(false)} className="btn-danger">Fechar</button>
+                        </div>
                     </form>
                 </div>
             )}
@@ -142,13 +199,15 @@ export function Home() {
                         <label>Dia</label>
                         <input type="date" name="dia" required />
 
-                        <button type="submit">Reservar</button>
-                        <button type="button" onClick={() => setReservaModal(null)}>Fechar</button>
+                        <div className="guardabtn">
+                        <button type="submit" className="btn">Reservar</button>
+                        <button type="button" onClick={() => setReservaModal(null)} className="btn-danger">Fechar</button>
+                        </div>
                     </form>
                 </div>
             )}
             {user.admin && (
-                <button className="btn" onClick={() => setNovoModal(true)}>
+                <button className="btn" id="nova" onClick={() => setNovoModal(true)}>
                     Nova Quadra
                 </button>
             )}
@@ -166,10 +225,22 @@ export function Home() {
                             >
                                 <h2>{quadra.name}</h2>
                                 <div>
-                                    <h4>{quadra.local}</h4>
-                                    <h3>{quadra.category}</h3>
+                                    <h4>Local: <strong>{quadra.local}</strong></h4>
+                                    <h3>Categoria: <strong>{quadra.category}</strong></h3>
                                 </div>
-                                <h6>R${quadra.price}</h6>
+                                <h6>Valor: <strong>R${quadra.price}</strong></h6>
+                                {user.admin && (
+                                    <button 
+                                        id="excluir"
+                                        className="btn-danger"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            excluirQuadra(quadra.id);
+                                        }}
+                                    >
+                                        Excluir
+                                    </button>
+                                )}
                             </Quadra>
                         );
                     })

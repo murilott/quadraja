@@ -75,7 +75,6 @@ export function Pagamento() {
 
                         <button 
                             className="btn" 
-                            style={{ marginTop: "10px" }}
                             onClick={() => deletePagamento(item.id)}
                         >
                             Excluir
