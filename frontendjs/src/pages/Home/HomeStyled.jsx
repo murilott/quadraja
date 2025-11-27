@@ -123,9 +123,9 @@ export const Quadra = styled.div`
         }
     }
     &.alugado {
-        background-color: #e6e6e6e2;
+        background-color: #e6e6e649;
         #excluir {
-            background-color: #e6e6e6e2;
+            background-color: #e6e6e649;
         }
 
         cursor: default;

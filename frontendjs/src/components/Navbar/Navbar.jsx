@@ -1,22 +1,53 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { NavbarContainer, NavbarContent } from "./NavbarStyled";
 
 export function Navbar() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const path = location.pathname;
+
+    function handleLogout() {
+        // limpa o usuário salvo
+        localStorage.removeItem("user");
+
+        // redireciona pro início
+        navigate("/");
+    }
 
     return (
         <>
             <NavbarContainer>
                 <NavbarContent>
-                    <h5>Logo Qudra</h5>
+                    <img src="https://quadra7.esp.br/wp-content/uploads/QUADRA7.png" style={{maxWidth: 200 + "px"}} />
+
                     <div>
-                        <button onClick={() => navigate("/home/")}>Quadras</button>
-                        <button onClick={() => navigate("/home/reservas")}>Reservas</button>
-                        <button onClick={() => navigate("/home/pagamento")}>Pagamento</button>
+                        <button
+                            className={path === "/home/" || path === "/home" ? "ativo" : ""}
+                            onClick={() => navigate("/home/")}
+                        >
+                            Quadras
+                        </button>
+
+                        <button
+                            className={path.includes("/home/reservas") ? "ativo" : ""}
+                            onClick={() => navigate("/home/reservas")}
+                        >
+                            Reservas
+                        </button>
+
+                        <button
+                            className={path.includes("/home/pagamento") ? "ativo" : ""}
+                            onClick={() => navigate("/home/pagamento")}
+                        >
+                            Pagamento
+                        </button>
                     </div>
-                    <button>Logout</button>
+
+                    <button onClick={handleLogout}><img src="https://www.svgrepo.com/show/506720/logout.svg" alt="" /></button>
                 </NavbarContent>
             </NavbarContainer>
+
             <Outlet />
         </>
     );

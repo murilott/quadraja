@@ -142,7 +142,7 @@ function reservarQuadra(event) {
     const novaReserva = {
         id: reservasDoUsuario.length + 1,
         quadraId: reservaModal.id,
-        quadra: reservaModal.nome,
+        quadra: reservaModal.name,
         pagamento: form.pagamento,
         dia: form.dia,
         email: userEmail
